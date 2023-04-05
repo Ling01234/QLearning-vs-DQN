@@ -114,6 +114,7 @@ class ActorNetwork(nn.Module):
             "cuda:0" if torch.cuda.is_available() else "cpu")
 
         self.to(self.device)
+        print(f"using: {self.device}")
 
     def forward(self, state):
         prob = self.fc1(state)
