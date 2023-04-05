@@ -1,7 +1,7 @@
 # import pybullet_envs
 import gymnasium as gym
 import numpy as np
-from agent import *
+from agent_sac import *
 from utils import plot
 from tqdm import trange
 
