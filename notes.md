@@ -2,14 +2,15 @@
 - deep q learning in two games, discrete and continuous. and show the limitations of deep qlearning, as well as possible modifications to the algorithm for better performance in continuous action space
 
 
-# AC
-- plotting total rewards a lot of squiggles, even if it goes upwards over time
+# Q learning
+- model free algorithm that learns to approximate the optimal q value function for a given env
+- agent updates its qvalue esimates using bellman's equation. q learnign is a tabular method
+-
 
-# SAC
-- get robust and stable learning in continuous action space environments
-- more smooth upward trend, since it maximizes not only the total reward over time, but also the stochasticity/entropy of how the agent behaves
+
 
 # Deep Q Learning
+- uses experience replay
 - handles discrete action spaces well
 - faces difficulty when it comes to continuous action space, such as the inverted pendulum
 - use Huber loss: acts like the mean squaraed error when error is small, acts like mean absolute error when its large

@@ -6,6 +6,7 @@ from network import *
 from replaybuffer import *
 from tqdm import trange
 from utils import *
+from itertools import count
 
 
 class Agent_SAC():
@@ -149,88 +150,8 @@ class Agent_SAC():
 
 
 class Agent_DQ():
-    def __init__(self, gamma, epsilon, alpha, input_dim, batch_size, n_action,
-                 max_mem_size=100000, eps_end=0.01, eps_decay=5e-4) -> None:
-        self.gamma = gamma
-        self.epsilon = epsilon
-        self.alpha = alpha
-        self.input_dim = input_dim
-        self.batch_size = batch_size
-        self.action_space = [i for i in range(n_action)]
-        self.mem_size = max_mem_size
-        self.eps_end = eps_end
-        self.eps_decay = eps_decay
-        # self.mem_counter = 0
-
-        self.Qeval = DQNetwork(self.alpha, input_dim,
-                               fc1_dim=256, fc2_dim=256, action_space=n_action)
-        self.buffer = Buffer(self.mem_size, input_dim, n_action)
-        # self.state_memory = self.buffer.state_memory
-        # self.new_state_memory = self.buffer.new_state_memory
-        # self.action_memory = self.buffer.action_memory
-        # self.reward_memory = self.buffer.reward_memory
-        # self.terminal_memory = self.buffer.terminal
-
-    def store_transition(self, state, action, reward, next_state, done):
-        self.buffer.remember(state, action, reward, next_state, done)
-
-    def select_action(self, obs):
-        if np.random.random() > self.epsilon:
-            state = torch.tensor([obs]).to(self.Qeval.device)
-            actions = self.Qeval.forward(state)
-            action = torch.argmax(actions).item()
-
-        else:
-            action = np.random.choice(self.action_space)
-
-        return action
-
-    def learn(self):
-        if self.buffer.mem_counter < self.batch_size:
-            return
-
-        self.Qeval.opt.zero_grad()
-        max_mem = min(self.buffer.mem_counter, self.mem_size)
-        batch = np.random.choice(max_mem, self.batch_size, replace=False)
-        batch_index = np.arange(self.batch_size, dtype=np.int32)
-
-        states = torch.tensor(
-            self.buffer.state_memory[batch], dtype=torch.float).to(self.Qeval.device)
-        new_states = torch.tensor(
-            self.buffer.new_state_memory[batch], dtype=torch.float).to(self.Qeval.device)
-        rewards = torch.tensor(
-            self.buffer.reward_memory[batch], dtype=torch.float).to(self.Qeval.device)
-        terminals = torch.tensor(
-            self.buffer.terminal[batch], dtype=torch.int).to(self.Qeval.device)
-        actions = self.buffer.action_memory[batch]
-        actions = np.argmax(actions, axis=1)
-
-        q_eval = self.Qeval.forward(states)
-        # print(f"q_eval shape: {q_eval.shape}")
-        # print(f"batch_index shape: {batch_index.shape}")
-        # print(f"actions shape: {actions.shape}")
-        q_eval = q_eval[batch_index, actions]
-
-        q_next = self.Qeval.forward(new_states)
-        q_next[terminals] = 0.0
-
-        # bellman
-        q_targets = rewards + self.gamma * torch.max(q_next, dim=1)[0]
-
-        loss = self.Qeval.loss(q_targets, q_eval).to(self.Qeval.device)
-        # print(f"loss: {loss}")
-        loss.backward()
-        self.Qeval.opt.step()
-
-        if self.epsilon > self.eps_end:
-            self.epsilon -= self.eps_decay
-        else:
-            self.epsilon = self.eps_end
-
-
-class Agent_DeepQ():
     def __init__(self, alpha, gamma, env, epsilon_start, epsilon_decay, epsilon_end,
-                 tau, batch_size) -> None:
+                 tau, batch_size, show_result=True) -> None:
         self.alpha = alpha
         self.gamma = gamma
         self.n_actions = env.action_space.n
@@ -241,6 +162,7 @@ class Agent_DeepQ():
         self.epsilong_end = epsilon_end
         self.tau = tau
         self.batch_size = batch_size
+        self.show_result = show_result
         self.episode_durations = []
 
         self.policy_network = DQNetwork(self.alpha, self.n_observations, fc1_dim=128, fc2_dim=128,
@@ -350,10 +272,138 @@ class Agent_DeepQ():
 
                 if done:
                     self.episode_durations.append(t + 1)
-                    plot_durations(self.episode_durations, show_result=False)
+                    plot_durations(self.episode_durations,
+                                   env_name=self.env.spec.id, show_result=False)
                     break
 
-        plot_durations(self.episode_durations, show_result=True)
+        plot_durations(self.episode_durations,
+                       env_name=self.env.spec.id, show_result=self.show_result)
         plt.ioff()
         plt.savefig(filename)
         plt.show()
+
+
+class Agent_Q:
+    def __init__(self, env, alpha, gamma, epsilon, upperbounds, lowerbounds, num_bins,
+                 seed=123, epsilon_end=0.01, epsilon_decay=5e-4) -> None:
+        self.env = env
+        self.alpha = alpha
+        self.gamma = gamma
+        self.epsilon = epsilon
+        self.epsilon_end = epsilon_end
+        self.epsilon_decay = epsilon_decay
+        self.num_bins = num_bins
+        self.upperbounds = upperbounds
+        self.lowerbounds = lowerbounds
+        self.seed = seed
+        random.seed(self.seed)
+        self.num_action = env.action_space.n
+        self.reward = []
+        self.state_space = self.env.observation_space.shape[0]
+
+        input_dim = [num_bins for i in range(self.state_space)]
+        self.Qvalues = np.random.uniform(low=-0.001, high=0.001,
+                                         size=(*input_dim, self.num_action))
+        self.steps = 0
+        self.bins = []
+        for i in range(self.state_space):
+            self.bins.append(np.linspace(
+                self.lowerbounds[i], self.upperbounds[i], self.num_bins))
+
+    def eps_update(self):
+        if self.epsilon > self.epsilon_end:
+            self.epsilon -= self.epsilon_decay
+        else:
+            self.epsilon = self.epsilon_end
+
+        self.steps += 1
+
+    def discritize_state(self, state):
+        """
+        Discritize continuous state into a discrete state
+
+        Args:
+            state (list of length 4): Current continuous state of agent
+
+        Returns:
+            state (4-tuple): Current discritized state of agent
+        """
+        new_state = []
+        for i in range(self.state_space):
+            index = np.maximum(np.digitize(state[i], self.bins[i]) - 1, 0)
+            new_state.append(index)
+
+        return tuple(new_state)
+
+    def select_action(self, state):
+        """
+        Select action given a state
+
+        Args:
+            state (4-tuple): Current state of the agent, continuous
+            episode (int): Current episode of the run
+
+        Returns:
+            int: Action chosen by the agent
+        """
+        random.seed(self.seed)
+        self.eps_update()
+
+        # epsilon greedy
+        number = np.random.random()
+        if number < self.epsilon:  # uniformly choose action
+            return np.random.choice(self.num_action)
+
+        # greedy selection
+        state = self.discritize_state(state)
+        best_actions = np.where(
+            self.Qvalues[state] == np.max(self.Qvalues[state]))[0]
+        return np.random.choice(best_actions)
+
+    def train(self, num_episodes):
+        """
+        Simulate a specified number of episodes
+        """
+        for episode in range(1, num_episodes+1):
+            # reset env
+            (state, _) = self.env.reset()
+            state = list(state)
+
+            # run episode
+            episode_reward = 0
+            terminal = False
+            while not terminal:
+                discritized_state = self.discritize_state(state)
+                action = self.select_action(state)
+                (next_state, reward, terminal, _, _) = self.env.step(action)
+                episode_reward += reward
+
+                next_discritized_state = self.discritize_state(
+                    list(next_state))
+
+                q_max = np.max(self.Qvalues[next_discritized_state])
+                self.update(
+                    terminal, reward, action, discritized_state, q_max)
+
+                state = next_state
+
+            self.reward.append(int(episode_reward))
+
+    def update(self, terminal, reward, action, state, q_max):
+        """
+        Qlearning update rule
+
+        Args:
+            terminal (bool): True if at terminal state, False otherwise
+            reward (int): Reward of the agent at current state
+            action (int): Action taken by agent
+            state (4-tuple): Discrete state of the agent
+            q_max (float): Max Q value of the next state
+        """
+        if not terminal:
+            loss = reward + self.gamma * q_max - \
+                self.Qvalues[state + (action,)]
+        else:
+            loss = reward - self.Qvalues[state + (action,)]
+
+        self.Qvalues[state + (action,)] += self.alpha * loss

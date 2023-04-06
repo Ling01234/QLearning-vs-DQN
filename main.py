@@ -5,6 +5,9 @@ from agent import *
 from utils import *
 from tqdm import trange
 
+env_cartpole = gym.make("CartPole-v1")
+env_lunar_lander = gym.make("LunarLander-v2")
+
 
 def sac():
     env = gym.make("InvertedPendulum-v4")
@@ -56,49 +59,40 @@ def sac():
         plot(x, score_history, figure_file)
 
 
-def dq():
-    env = gym.make("LunarLander-v2")
-    agent = Agent_DQ(gamma=0.99, epsilon=1.0, batch_size=64,
-                     n_action=4, eps_end=0.01, input_dim=[8], alpha=0.003)
-    scores, eps_hist = [], []
-    num_games = 500
-
-    for game in range(num_games):
-        score = 0
-        done = False
-        obs, _ = env.reset()
-
-        while not done:
-            action = agent.select_action(obs)
-            next_obs, reward, done, *_ = env.step(action)
-            score += reward
-            agent.store_transition(obs, action, reward, next_obs, done)
-            agent.learn()
-            obs = next_obs
-
-        scores.append(score)
-        eps_hist.append(agent.epsilon)
-
-        avg_score = np.mean(scores[-100:])
-
-        print(
-            f"episode {game + 1} score {score:.1f}, avg_score {avg_score:.2f}, epsilon: {agent.epsilon:.2f}")
-
-    x = [i + 1 for i in range(num_games)]
-    filename = "plots/lunar_lander.png"
-    plot(x, scores, eps_hist, filename)
-
-
-def new_dq():
-    env = gym.make("CartPole-v1")
-    agent = Agent_DeepQ(alpha=0.003, gamma=0.99, env=env, epsilon_start=1, epsilon_decay=5e-4, epsilon_end=0.01, tau=0.005,
-                        batch_size=64)
+def cartpole_dq():
+    agent = Agent_DQ(alpha=0.003, gamma=0.99, env=env_cartpole, epsilon_start=1,
+                     epsilon_decay=5e-4, epsilon_end=0.01, tau=0.005, batch_size=64)
 
     filename = "plots/cartpole.png"
     agent.train(500, filename=filename)
-    env.close()
+
+
+def cartpole_q():
+    upperbounds = env_cartpole.observation_space.high
+    upperbounds[1] = 3.5
+    upperbounds[3] = 10
+    lowerbounds = env_cartpole.observation_space.low
+    lowerbounds[1] = -3.5
+    lowerbounds[3] = -10
+
+    agent = Agent_Q(env=env_cartpole, alpha=0.15, gamma=0.99, epsilon=1.0, num_bins=10,
+                    epsilon_decay=5e-4, epsilon_end=0.01, lowerbounds=lowerbounds, upperbounds=upperbounds)
+    agent.train(2000)
+    rewards = agent.reward
+    x = np.arange(len(rewards))
+    filename = "plots/cartpole with QLearning"
+    plot(x, rewards, filename)
+
+
+def lunarlander_dq():
+    agent = Agent_DQ(alpha=0.003, gamma=0.99, env=env_lunar_lander, epsilon_start=1,
+                     epsilon_decay=5e-4, epsilon_end=0.01, tau=0.005, batch_size=64)
+
+    filename = "plots/lunar_lander.png"
+    agent.train(500, filename=filename)
 
 
 if __name__ == "__main__":
-    # sac()
-    new_dq()
+    # cartpole_dq()
+    cartpole_q()
+    # lunarlander_dq()

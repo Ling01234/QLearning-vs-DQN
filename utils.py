@@ -16,11 +16,11 @@ def plot(x, scores, figure_file):
     plt.savefig(figure_file)
 
 
-def plot_durations(episode_durations, show_result=False):
+def plot_durations(episode_durations, env_name, show_result=False):
     plt.figure(1)
     durations_t = torch.tensor(episode_durations, dtype=torch.float)
     if show_result:
-        plt.title('Result')
+        plt.title(f"{env_name}")
     else:
         plt.clf()
         plt.title('Training...')
