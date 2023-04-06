@@ -3,7 +3,9 @@ import torch
 import torch.nn.functional as F
 import numpy as np
 from network import *
-from replaybuffer import Buffer
+from replaybuffer import *
+from tqdm import trange
+from utils import *
 
 
 class Agent_SAC():
@@ -224,3 +226,134 @@ class Agent_DQ():
             self.epsilon -= self.eps_decay
         else:
             self.epsilon = self.eps_end
+
+
+class Agent_DeepQ():
+    def __init__(self, alpha, gamma, env, epsilon_start, epsilon_decay, epsilon_end,
+                 tau, batch_size) -> None:
+        self.alpha = alpha
+        self.gamma = gamma
+        self.n_actions = env.action_space.n
+        self.env = env
+        self.n_observations = env.observation_space.shape[0]
+        self.epsilon = epsilon_start
+        self.epsilon_decay = epsilon_decay
+        self.epsilong_end = epsilon_end
+        self.tau = tau
+        self.batch_size = batch_size
+        self.episode_durations = []
+
+        self.policy_network = DQNetwork(self.alpha, self.n_observations, fc1_dim=128, fc2_dim=128,
+                                        action_space=self.n_actions)
+        self.target_network = DQNetwork(self.alpha, self.n_observations, fc1_dim=128, fc2_dim=128,
+                                        action_space=self.n_actions)
+        self.target_network.load_state_dict(self.policy_network.state_dict())
+
+        self.memory = ReplayMemory(100000)
+        self.steps = 0
+
+    def epsilon_update(self):
+        if self.epsilon > self.epsilong_end:
+            self.epsilon -= self.epsilon_decay
+        else:
+            self.epsilon = self.epsilong_end
+        self.steps += 1
+
+    def select_action(self, state):
+        sample = random.random()
+        self.epsilon_update()
+
+        if sample > self.epsilon:
+            with torch.no_grad():
+                action = self.policy_network(state).max(1)[1].view(1, 1)
+
+        else:
+            action = torch.tensor([[self.env.action_space.sample(
+            )]], device=self.policy_network.device, dtype=torch.long)
+
+        return action
+
+    def learn(self):
+        if len(self.memory) < self.batch_size:
+            return
+
+        transitions = self.memory.sample(self.batch_size)
+        # convert batch array of transitions to transition of batch arrays
+        batch = Transition(*zip(*transitions))
+
+        masks = torch.tensor(tuple(map(lambda s: s is not None, batch.next_state)),
+                             device=self.policy_network.device, dtype=bool)
+        non_final_next_states = torch.cat(
+            [s for s in batch.next_state if s is not None])
+        states = torch.cat(batch.state)
+        actions = torch.cat(batch.action)
+        # print(f"batch reward: {batch.reward}")
+        rewards = torch.cat(batch.reward)
+
+        # Q(s_t, a)
+        sa_values = self.policy_network(states).gather(1, actions)
+
+        # compute next state values for the bellman's equation
+        next_state_values = torch.zeros(
+            self.batch_size, device=self.policy_network.device)
+        with torch.no_grad():
+            next_state_values[masks] = self.target_network(
+                non_final_next_states).max(1)[0]
+
+        # compute target values
+        target_sa_values = rewards + self.gamma * next_state_values
+
+        # compute loss
+        loss = nn.SmoothL1Loss()
+        loss = loss(sa_values, target_sa_values.unsqueeze(1))
+
+        # optimizer
+        self.policy_network.opt.zero_grad()
+        loss.backward()
+        torch.nn.utils.clip_grad_value_(self.policy_network.parameters(), 100)
+        self.policy_network.opt.step()
+
+    def train(self, episodes, filename):
+        for episode in trange(1, episodes):
+            state, _ = self.env.reset()
+            state = torch.tensor(state, dtype=torch.float32,
+                                 device=self.policy_network.device).unsqueeze(0)
+
+            for t in count():
+                action = self.select_action(state)
+                next_state, reward, terminal, truncated, _ = self.env.step(
+                    action.item())
+
+                reward = torch.tensor(
+                    [reward], device=self.policy_network.device)
+                done = terminal or truncated
+
+                if terminal:
+                    next_state = None
+                else:
+                    next_state = torch.tensor(
+                        next_state, dtype=torch.float32, device=self.policy_network.device).unsqueeze(0)
+
+                self.memory.push(state, action, reward, next_state, done)
+                state = next_state
+
+                self.learn()
+
+                # soft update of the target network's weights
+                target_network_state_dict = self.target_network.state_dict()
+                policy_network_state_dict = self.policy_network.state_dict()
+                for key in policy_network_state_dict:
+                    target_network_state_dict[key] = policy_network_state_dict[key] * \
+                        self.tau + \
+                        target_network_state_dict[key] * (1-self.tau)
+                self.target_network.load_state_dict(target_network_state_dict)
+
+                if done:
+                    self.episode_durations.append(t + 1)
+                    plot_durations(self.episode_durations, show_result=False)
+                    break
+
+        plot_durations(self.episode_durations, show_result=True)
+        plt.ioff()
+        plt.savefig(filename)
+        plt.show()

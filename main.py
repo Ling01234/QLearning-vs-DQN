@@ -89,6 +89,16 @@ def dq():
     plot(x, scores, eps_hist, filename)
 
 
+def new_dq():
+    env = gym.make("CartPole-v1")
+    agent = Agent_DeepQ(alpha=0.003, gamma=0.99, env=env, epsilon_start=1, epsilon_decay=5e-4, epsilon_end=0.01, tau=0.005,
+                        batch_size=64)
+
+    filename = "plots/cartpole.png"
+    agent.train(500, filename=filename)
+    env.close()
+
+
 if __name__ == "__main__":
     # sac()
-    dq()
+    new_dq()

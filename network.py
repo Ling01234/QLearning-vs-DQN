@@ -168,16 +168,16 @@ class ActorNetwork(nn.Module):
 
 
 class DQNetwork(nn.Module):
-    def __init__(self, alpha, input_dim, fc1_dim, fc2_dim, action_space):
+    def __init__(self, alpha, n_observations, fc1_dim, fc2_dim, action_space):
         super(DQNetwork, self).__init__()
         self.alpha = alpha
-        self.input_dim = input_dim
+        self.n_observations = n_observations
         self.fc1_dim = fc1_dim
         self.fc2_dim = fc2_dim
         self.action_space = action_space
 
         self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-        self.fc1 = nn.Linear(*self.input_dim, self.fc1_dim)
+        self.fc1 = nn.Linear(self.n_observations, self.fc1_dim)
         self.fc2 = nn.Linear(self.fc1_dim, self.fc2_dim)
         self.fc3 = nn.Linear(self.fc2_dim, self.action_space)
         self.opt = optim.Adam(self.parameters(), lr=self.alpha)
@@ -191,5 +191,5 @@ class DQNetwork(nn.Module):
         actions = self.fc3(x)
         return actions
 
-    
+
 
