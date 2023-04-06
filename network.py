@@ -6,6 +6,10 @@ import torch.optim as optim
 from torch.distributions.normal import Normal
 import numpy as np
 
+#######################################
+# SOFT ACTOR CRITIC
+#######################################
+
 
 class CriticNetwork(nn.Module):
     def __init__(self, alpha, input_dim, action_space, name="critic", fc1_dim=256, fc2_dim=256,
@@ -155,3 +159,37 @@ class ActorNetwork(nn.Module):
 
     def load_checkpoint(self):
         self._load_from_state_dict(torch.load(self.checkpoint_file))
+
+
+
+################################################
+# DEEP Q LEARNING
+################################################
+
+
+class DQNetwork(nn.Module):
+    def __init__(self, alpha, input_dim, fc1_dim, fc2_dim, action_space):
+        super(DQNetwork, self).__init__()
+        self.alpha = alpha
+        self.input_dim = input_dim
+        self.fc1_dim = fc1_dim
+        self.fc2_dim = fc2_dim
+        self.action_space = action_space
+
+        self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        self.fc1 = nn.Linear(*self.input_dim, self.fc1_dim)
+        self.fc2 = nn.Linear(self.fc1_dim, self.fc2_dim)
+        self.fc3 = nn.Linear(self.fc2_dim, self.action_space)
+        self.opt = optim.Adam(self.parameters(), lr=self.alpha)
+        self.loss = nn.MSELoss()
+        self.to(self.device)
+
+    def forward(self, state):
+        x = F.relu(self.fc1(state))
+        x = self.fc2(x)
+        x = F.relu(x)
+        actions = self.fc3(x)
+        return actions
+
+    
+

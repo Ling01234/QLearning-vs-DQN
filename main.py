@@ -2,14 +2,15 @@
 import gymnasium as gym
 import numpy as np
 from agent_sac import *
-from utils import plot
+from utils import *
 from tqdm import trange
+from agent_deep import *
 
 
-def main():
+def sac():
     env = gym.make("InvertedPendulum-v4")
-    agent = Agent(input_dim=env.observation_space.shape, env=env,
-                  action_space=env.action_space.shape[0])
+    agent = Agent_SAC(input_dim=env.observation_space.shape, env=env,
+                      action_space=env.action_space.shape[0])
 
     num_games = 1000
     filename = "pendulum.png"
@@ -53,8 +54,42 @@ def main():
 
     if not load_checkpoint:
         x = [i+1 for i in range(num_games)]
-        plot(x, score_history, figure_file)
+        plot_policy_gradient(x, score_history, figure_file)
+
+
+def dq():
+    env = gym.make("LunarLander-v2")
+    agent = Agent_DQ(gamma=0.99, epsilon=1.0, batch_size=64,
+                     n_action=4, eps_end=0.01, input_dim=[8], alpha=0.003)
+    scores, eps_hist = [], []
+    num_games = 500
+
+    for game in range(num_games):
+        score = 0
+        done = False
+        obs, _ = env.reset()
+
+        while not done:
+            action = agent.select_action(obs)
+            next_obs, reward, done, *_ = env.step(action)
+            score += reward
+            agent.store_transition(obs, action, reward, next_obs, done)
+            agent.learn()
+            obs = next_obs
+
+        scores.append(score)
+        eps_hist.append(agent.epsilon)
+
+        avg_score = np.mean(scores[-100:])
+
+        print(
+            f"episode {game + 1} score {score:.1f}, avg_score {avg_score:.2f}, epsilon: {agent.epsilon:.2f}")
+
+    x = [i + 1 for i in range(num_games)]
+    filename = "plots/lunar_lander.png"
+    plot_policy_gradient(x, scores, eps_hist, filename)
 
 
 if __name__ == "__main__":
-    main()
+    # sac()
+    dq()

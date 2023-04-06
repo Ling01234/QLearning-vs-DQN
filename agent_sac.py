@@ -6,7 +6,7 @@ from network import *
 from replaybuffer import Buffer
 
 
-class Agent():
+class Agent_SAC():
     def __init__(self, alpha=0.0003, beta=0.0003, input_dim=[8], env=None, gamma=0.99,
                  action_space=2, max_size=1000000, layer1_size=256, layer2_size=256, batch_size=128,
                  reward_scale=2, tau=0.005):
