@@ -1,0 +1,19 @@
+\newcommand{\etalchar}[1]{$^{#1}$}
+\begin{thebibliography}{3}
+\providecommand{\natexlab}[1]{#1}
+
+\bibitem[Brockman u.a.(2016)Brockman u.a.]{gym}
+Brockman, Greg / Cheung, Vicki / Pettersson, Ludwig / Schneider, Jonas /
+  Schulman, John / Tang, Jie / Zaremba, Wojciech (2016):
+\textit{OpenAI Gym}\newline .
+
+\bibitem[Goossens u.a.(1993)Goossens / Mittelbach / Samarin]{latexcompanion}
+Goossens, Michel / Mittelbach, Frank / Samarin, Alexander  (1993): \textit{The
+  \LaTeX\ Companion}. Reading, Massachusetts, Addison-Wesley.
+
+\bibitem[Yarats u.a.(2020)Yarats / Kostrikov]{pytorch_sac}
+Yarats, Denis / Kostrikov, Ilya (2020):
+\textit{Soft Actor-Critic (SAC) implementation in PyTorch}\newline
+  \url{https://github.com/denisyarats/pytorch_sac}.
+
+\end{thebibliography}

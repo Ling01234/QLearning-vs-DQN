@@ -1,0 +1,59 @@
+This is BibTeX, Version 0.99d (TeX Live 2022)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: Report.aux
+The style file: ksfh_nat.bst
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Database file #1: References.bib
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Warning--YaratsKostrikov Yarats, Denis and Kostrikov, Ilya 
+Warning-- yaratskostrikov2020
+Warning--GoossensMittelbachSamarin Michel Goossens and Frank Mittelbach and Alexander Samarin 
+Warning-- goossensmittelbachsamarin1993
+Warning--BrockmanCheungPetterssonSchneiderSchulmanTangZaremba{\etalchar{+}} Greg Brockman and Vicki Cheung and Ludwig Pettersson and Jonas Schneider and John Schulman and Jie Tang and Wojciech Zaremba 
+Warning-- brockmancheungpetterssonschneiderschulmantangzaremba2016
+You've used 3 entries,
+            2526 wiz_defined-function locations,
+            476 strings with 3562 characters,
+and the built_in function-call counts, 1726 in all, are:
+= -- 153
+> -- 135
+< -- 0
++ -- 57
+- -- 53
+* -- 118
+:= -- 298
+add.period$ -- 3
+call.type$ -- 3
+change.case$ -- 21
+chr.to.int$ -- 3
+cite$ -- 3
+duplicate$ -- 72
+empty$ -- 78
+format.name$ -- 60
+if$ -- 312
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 12
+newline$ -- 16
+num.names$ -- 15
+pop$ -- 24
+preamble$ -- 1
+purify$ -- 27
+quote$ -- 0
+skip$ -- 95
+stack$ -- 0
+substring$ -- 22
+swap$ -- 30
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 42
+warning$ -- 6
+while$ -- 14
+width$ -- 0
+write$ -- 51
+(There were 6 warnings)
