@@ -1,10 +1,9 @@
 # import pybullet_envs
 import gymnasium as gym
 import numpy as np
-from agent_sac import *
+from agent import *
 from utils import *
 from tqdm import trange
-from agent_deep import *
 
 
 def sac():
