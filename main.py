@@ -92,7 +92,20 @@ def lunarlander_dq():
     agent.train(500, filename=filename)
 
 
+def lunarlander_q():
+    upperbounds = env_lunar_lander.observation_space.high
+    lowerbounds = env_lunar_lander.observation_space.low
+    agent = Agent_Q(env=env_lunar_lander, alpha=0.01, epsilon=1.0, upperbounds=upperbounds, lowerbounds=lowerbounds,
+                    num_bins=10, gamma=0.99)
+    agent.train(2000)
+    rewards = agent.reward
+    x = np.arange(len(rewards))
+    filename = "plots/lunarlander with QLearning"
+    plot(x, rewards, filename)
+
+
 if __name__ == "__main__":
     # cartpole_dq()
-    cartpole_q()
+    # cartpole_q()
     # lunarlander_dq()
+    lunarlander_q()
