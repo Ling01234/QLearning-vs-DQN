@@ -53,7 +53,7 @@ def sac():
 
     if not load_checkpoint:
         x = [i+1 for i in range(num_games)]
-        plot_policy_gradient(x, score_history, figure_file)
+        plot(x, score_history, figure_file)
 
 
 def dq():
@@ -86,7 +86,7 @@ def dq():
 
     x = [i + 1 for i in range(num_games)]
     filename = "plots/lunar_lander.png"
-    plot_policy_gradient(x, scores, eps_hist, filename)
+    plot(x, scores, eps_hist, filename)
 
 
 if __name__ == "__main__":
