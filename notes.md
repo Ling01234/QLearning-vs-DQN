@@ -34,7 +34,6 @@ I am implementing two reinforcement learning models, q learning and deep q learn
 
 # To do
 - background
-- methodology for dqn
 - results
 - conclusion
 - abstract

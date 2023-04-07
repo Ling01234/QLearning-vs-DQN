@@ -36,6 +36,9 @@ class Agent_DQ():
         self.steps = 0
 
     def epsilon_update(self):
+        """
+        Update epsilon following linear decay
+        """
         if self.epsilon > self.epsilong_end:
             self.epsilon -= self.epsilon_decay
         else:
@@ -43,6 +46,15 @@ class Agent_DQ():
         self.steps += 1
 
     def select_action(self, state):
+        """
+        Selects an action given the current state
+
+        Args:
+            state (Tensor): current state of the agent
+
+        Returns:
+            int: action to take
+        """
         sample = random.random()
         self.epsilon_update()
 
@@ -57,10 +69,14 @@ class Agent_DQ():
         return action
 
     def learn(self):
+        """
+        Update step in the learning of the agent
+        """
         if len(self.memory) < self.batch_size:
             return
 
         transitions = self.memory.sample(self.batch_size)
+
         # convert batch array of transitions to transition of batch arrays
         batch = Transition(*zip(*transitions))
 
@@ -70,7 +86,6 @@ class Agent_DQ():
             [s for s in batch.next_state if s is not None])
         states = torch.cat(batch.state)
         actions = torch.cat(batch.action)
-        # print(f"batch reward: {batch.reward}")
         rewards = torch.cat(batch.reward)
 
         # Q(s_t, a)
@@ -97,6 +112,12 @@ class Agent_DQ():
         self.policy_network.opt.step()
 
     def train(self, episodes):
+        """
+        Trains the agent for a specific number of episodes
+
+        Args:
+            episodes (int): number of episodes to train the agent
+        """
         for episode in trange(1, episodes+1):
             episode_reward = 0
             state, _ = self.env.reset()
@@ -133,19 +154,7 @@ class Agent_DQ():
                         target_network_state_dict[key] * (1-self.tau)
                 self.target_network.load_state_dict(target_network_state_dict)
 
-                # if done:
-                #     # self.episode_durations.append(t + 1)
-                #     # plot_durations(self.episode_durations,
-                #     #                env_name=self.env.spec.id, show_result=False)
-                #     break
-
             self.train_reward.append(episode_reward)
-
-        # plot_durations(self.episode_durations,
-        #                env_name=self.env.spec.id, show_result=self.show_result)
-        # plt.ioff()
-        # plt.savefig(filename)
-        # plt.show()
 
 
 class Agent_Q:
@@ -176,6 +185,9 @@ class Agent_Q:
                 self.lowerbounds[i], self.upperbounds[i], self.num_bins))
 
     def eps_update(self):
+        """
+        Epsilon update following a linear decay
+        """
         if self.epsilon > self.epsilon_end:
             self.epsilon -= self.epsilon_decay
         else:
@@ -274,6 +286,16 @@ class Agent_Q:
         self.Qvalues[state + (action,)] += self.alpha * loss
 
     def test(self, episodes):
+        """
+        Tests the trained agent for a specific numer
+        of epsiodes.
+
+        Args:
+            episodes (int): number of episodes to test on
+
+        Returns:
+            list: list of testing rewards
+        """
         state, _ = self.env.reset()
         state = list(state)
         rewards = []
