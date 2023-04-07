@@ -34,9 +34,9 @@ def plot_all(reward_cartpole_q, reward_cartpole_dq, reward_lunar_q, reward_lunar
     avg_lunar_q = np.zeros(len(reward_lunar_q))
     for i in range(len(avg_lunar_q)):
         avg_lunar_q[i] = np.mean(reward_lunar_q[max(0, i-100): (i+1)])
-    avg_lunar_dq = np.zeros(len(reward_cartpole_dq))
+    avg_lunar_dq = np.zeros(len(reward_lunar_dq))
     for i in range(len(avg_lunar_dq)):
-        avg_lunar_dq[i] = np.mean(reward_cartpole_dq[max(0, i-100): (i+1)])
+        avg_lunar_dq[i] = np.mean(reward_lunar_dq[max(0, i-100): (i+1)])
 
     plt.plot(x, avg_cartpole_q,
              label=f"CartPole with Q Learning", color=colors[0])
@@ -46,7 +46,7 @@ def plot_all(reward_cartpole_q, reward_cartpole_dq, reward_lunar_q, reward_lunar
              label=f"LunarLander with Q Learning", color=colors[2])
     plt.plot(x, avg_lunar_dq,
              label=f"LunarLander with Deep Q Learning", color=colors[3])
-    plt.legend(bbox_to_anchor=(1, 0.5), loc="best")
+    plt.legend(bbox_to_anchor=(1, 0), loc="lower right")
     plt.ylabel("Return")
     plt.xlabel("Episode")
     plt.savefig("plots/all.png")

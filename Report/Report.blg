@@ -8,52 +8,53 @@ Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Database file #1: References.bib
+Warning--I didn't find a database entry for "pytorch_sac"
+Warning--I didn't find a database entry for "latexcompanion"
 Reallocated singl_function (elt_size=4) to 100 items from 50.
-Warning--YaratsKostrikov Yarats, Denis and Kostrikov, Ilya 
-Warning-- yaratskostrikov2020
-Warning--GoossensMittelbachSamarin Michel Goossens and Frank Mittelbach and Alexander Samarin 
-Warning-- goossensmittelbachsamarin1993
-Warning--BrockmanCheungPetterssonSchneiderSchulmanTangZaremba{\etalchar{+}} Greg Brockman and Vicki Cheung and Ludwig Pettersson and Jonas Schneider and John Schulman and Jie Tang and Wojciech Zaremba 
-Warning-- brockmancheungpetterssonschneiderschulmantangzaremba2016
-You've used 3 entries,
+You can't pop an empty literal stack for entry DBLP:journals/corr/MnihKSGAWR13
+while executing---line 1208 of file ksfh_nat.bst
+Warning-- 
+You can't pop an empty literal stack for entry DBLP:journals/corr/MnihKSGAWR13
+while executing---line 1208 of file ksfh_nat.bst
+You've used 1 entry,
             2526 wiz_defined-function locations,
-            476 strings with 3562 characters,
-and the built_in function-call counts, 1726 in all, are:
-= -- 153
-> -- 135
+            467 strings with 3409 characters,
+and the built_in function-call counts, 477 in all, are:
+= -- 38
+> -- 35
 < -- 0
-+ -- 57
-- -- 53
-* -- 118
-:= -- 298
-add.period$ -- 3
-call.type$ -- 3
-change.case$ -- 21
-chr.to.int$ -- 3
-cite$ -- 3
-duplicate$ -- 72
-empty$ -- 78
-format.name$ -- 60
-if$ -- 312
++ -- 15
+- -- 14
+* -- 30
+:= -- 88
+add.period$ -- 1
+call.type$ -- 1
+change.case$ -- 3
+chr.to.int$ -- 1
+cite$ -- 1
+duplicate$ -- 19
+empty$ -- 22
+format.name$ -- 16
+if$ -- 83
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 12
-newline$ -- 16
-num.names$ -- 15
-pop$ -- 24
+missing$ -- 3
+newline$ -- 7
+num.names$ -- 3
+pop$ -- 3
 preamble$ -- 1
-purify$ -- 27
+purify$ -- 5
 quote$ -- 0
-skip$ -- 95
+skip$ -- 38
 stack$ -- 0
-substring$ -- 22
-swap$ -- 30
+substring$ -- 7
+swap$ -- 8
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 42
-warning$ -- 6
-while$ -- 14
+type$ -- 14
+warning$ -- 1
+while$ -- 2
 width$ -- 0
-write$ -- 51
-(There were 6 warnings)
+write$ -- 16
+(There were 2 error messages)

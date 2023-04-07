@@ -27,6 +27,7 @@
 \usepackage{microtype}      % microtypography
 \usepackage{xcolor}         % colors
 \usepackage{graphicx}
+% \usepackage{parskip}
 \graphicspath{{../plots/}}
 
 \title{Formatting Instructions For NeurIPS 2022}
@@ -50,11 +51,65 @@
 
 \section{Introduction}
 
-\subsection{Motivation}
+Reinforcement learning is a subset of artificial intelligence that concerns
+itself with developing agents that can learn to take actions in a stochastic
+environment with the goal to maximize a reward function. In recent years,
+reinforcement learning has gained considerable attention as it is a powerful
+approach that can be used in a wide range of applications, from robotics and
+gaming to finance and healthcare. Among the many algorithms in reinforcement
+learning, Q Learning has been one of the most popular and most used. However, Q
+Learning also has its limitations when it comes to handling large state spaces
+and continuous action spaces. One of the proposed solution is Deep Q Learning
+(DQL), which combines Q Learning with deep neural networks to learn policies
+that can handle complexe state-action spaces.
 
-\subsection{Background}
+In this project, we will compare the performance of Q Learning and Deep Q
+Learning algorithms on two games from the OpenAI Gym environment: CartPole and
+Lunar Lander. CartPole is a game that involves balancing a pole on a cart by
+moving the cart left or right. On the other hand, Lunar Lander is a game that
+involves landing a spacecraft on a landing pad by controlling its thrusters.
+Both games have discrete action spaces, which make them suitable for testing
+the performance of Q Learning and DQL.
 
-\subsection{Algorithm}
+Q Learning is a model free reinforcement learning algorithm that uses a table
+to store the Q values for each state-action pair. The Q value repreesnts the
+expected return that the agent can obtain by taking a specific action in a
+given state. To learn, Q Learning updates the Q values based on the Bellman
+equation. To be more specific, the algorithm learns by updating the expected
+return in terms of the immediate reward and the expected return in the next
+state. In simple environments, Q Learning is very effective. However, the model
+struggle in more complex environments, usually due to the high dimensionality.
+This generally comes from the exponential increase in the number of states as
+the number of dimensions increase, making it impractical to store and update
+the Q values for all the state-action pairs.
+
+To overcome the limitations of Q Learning, Deep Q Learning was introduced. DQL
+combines Q Learning with deep neural networks to learn policies that can handle
+state-action spaces. The deep neural network approximates the Q values, which
+enables the agent to learn a function that maps the states to the Q values.
+Using neural networks as our function approximator, we can handle large state
+spaces as well as continuous action spaces.
+
+However, no algorithm is perfect, as DQL faces its own challenge of
+instability. In fact, DQL can be quite unstable during the learning process and
+also requires careful hyperparameter tuning. The instability arises mainly from
+the non-stationarity of the learning process, where the Q values change as the
+agent learns, which then affects the target values used in the update rule. The
+need of careful tuning of hyperparameters arises from the complexity of the DQL
+algorithm, which involves the use of mutilple layers of neural networks,
+different learning rates and replay buffers.
+
+In this project, the aim is to compare the performance of Q Learning and Deep Q
+Learning in two games and observe the advantages and limitations of each
+algorithm. By comparing the results, we hope to gain insights into the
+strenghts and weaknesses of each algorithm and provide a better understanding
+of their performance in different environments. The motivation for this
+comparison comes from the need to understand the trade-offs between the two
+algorithms and their applicability in different scenarios.
+
+\section{Background}
+
+\section{Algorithm}
 
 \section{Methodology}
 
