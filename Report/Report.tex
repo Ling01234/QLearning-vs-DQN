@@ -163,21 +163,63 @@ In Algorithm \ref{alg:qlearning}, \(\alpha\) is the learning rate, \(0 < \gamma
 the agent.
 
 \subsection{Deep Q Network}
+To build our agent for DQN, a few steps are necessary as we need a deep neural
+network to approximate our Q values. Since DQN is a off policy reinforcement
+learning algorithm, it uses a technique called experience replay. Thus, our
+first step is to implement \verb+ReplayMemory+, which acts as a replay buffer
+of past experiences. Each memory consist of a 5-tuple, namely (state, action,
+reward, next state, done). We also implemented the \verb+sample+ method since
+the algorithm learns by sampling from the buffer, and updates the Q network
+accordingly.
+
+Next, we implemented the deep neural network, which consists of two hidden
+layers, each with a default number of 128 units. We used \verb+ReLU+ activation
+function, \verb+Adam+'s optimizer and calculated our loss with
+\verb+SmoothL1Loss+. In the \verb+forward+ method, our network takes in a
+state, and outputs a Tensor of shape \verb+action_space+, each element
+corresponding to the Q value of the state-action pair.
+
+With this, we can build our RL agent. We built the agent with both a policy as
+well as a target network in order to make learning more stable. For our
+experiment, we initialized a replay buffer of size 100000, and trained our
+agent for 500 episodes. The actions are sampled based on an epsilon-greedy
+exploration. The full algorithm of DQN is described below.
+
 \begin{algorithm}
-      \caption{DQN learn(episodes, \(\alpha, \epsilon, \gamma\))}
-      \label{alg:dqn_learn}
+      \caption{DQN(episodes, \(\alpha, \epsilon, \gamma, C\))}
+      \label{alg:dqn}
       \begin{algorithmic}[1]
-            \State hello
+            \State Initialize replay buffer \(\mathcal{D}\) with maximum capacity 100000
+            \State Initialize policy network \(Q\) with random weights \(\theta\)
+            \State Initialize target network \(\tilde{Q}\) with random weights \(\tilde{\theta}\) \Comment{more stable learning}
+            \ForEach{episode in episodes}
+            \State Initialize \(s\)
+            \State Set \(t \leftarrow 0\) \Comment{time step}
+            \State \(done\) \(\leftarrow\) False
+            \While {not \(done\)}
+            \State Choose \(a \in \mathcal{A}\) from \(s\) using policy network \(Q\) \Comment{\(\epsilon\)-greedy, Softmax}
+            \State Take action \(a\)
+            \State Observe reward \(r\), next state \(s'\) and \(done\)
+            \State Store transition \((s, a, r, s', done)\)
+            \State Sample a minibatch of random transitions \((s, a, r, s', done)\) from \(\mathcal{D}\)
+            \State Set \(y_t =
+            \begin{cases}
+                  r                                                                 & \quad \text{if }s \text{ is a terminal state} \\
+                  r + \gamma \max_a \title{Q}(\text{next state}, a; \tilde{\theta}) & \quad \text{otherwise}
+            \end{cases}\)
+            \State Perform a gradient descent step on \(\left(y_t - Q(\text{state}, a; \theta)\right)^2\) with respect to the policy network parameters \(\theta\)
+            \If {\(t \text{ mod } C = 0\)}
+            \State \(\tilde{Q} \leftarrow Q\) \Comment{resets target network}
+            \EndIf
+            \State C \(\leftarrow\) C + 1
+            \EndWhile
+            \EndFor
       \end{algorithmic}
 \end{algorithm}
 
-\begin{algorithm}
-      \caption{DQN train(episodes, \(\alpha, \epsilon, \gamma\))}
-      \label{alg:dqn_train}
-      \begin{algorithmic}[1]
-            \State hello
-      \end{algorithmic}
-\end{algorithm}
+The core of the training lies in the lines 13 to 19, where the agent selects a
+small batch of tuple randomly and learns from it using a gradient descent
+update step.
 
 \section{Methodology}
 \subsection{Q Learning}
@@ -198,28 +240,6 @@ velocity. To train our agent, we simply pass the required arguments to the
 case, we number of training episodes is 500 for both games.
 
 \subsection{DQN}
-To build our agent for DQN, a few more steps are necessary as we need a deep
-neural network to approximate our Q values. Since DQN is a off policy
-reinforcement learning algorithm, it uses a technique called experience replay.
-Thus, our first step is to implement \verb+ReplayMemory+, which acts as a
-replay buffer of past experiences. Each memory consist of a 5-tuple, namely
-(state, action, reward, next state, done). We also implemented the
-\verb+sample+ method since the algorithm learns by sampling from the buffer,
-and updates the Q network accordingly.
-
-Next, we implemented the deep neural network, which consists of two hidden
-layers, each with a default number of 128 units. We used \verb+ReLU+ activation
-function, \verb+Adam+'s optimizer and calculated our loss with
-\verb+SmoothL1Loss+. In the \verb+forward+ method, our network takes in a
-state, and outputs a Tensor of shape \verb+action_space+, each element
-corresponding to the Q value of the state-action pair.
-
-With this, we can build our RL agent. We built the agent with both a policy as
-well as a target network in order to make learning more stable. For our
-experiment, we initialized a replay buffer of size 100000, and trained our
-agent for 500 episodes. The actions are sampled based on an epsilon-greedy
-exploration. Finally, the agent learns following Algorithm \ref{alg:dqn_learn}
-and trains following Algorithm \ref{alg:dqn_train}.
 
 \section{Results}
 
