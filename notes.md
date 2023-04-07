@@ -33,7 +33,7 @@ I am implementing two reinforcement learning models, q learning and deep q learn
 
 
 # To do
-- background
+- background -> talk about discount factors and learning rates?
 - results
 - conclusion
 - abstract
