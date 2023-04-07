@@ -25,14 +25,26 @@ def plot_all(reward_cartpole_q, reward_cartpole_dq, reward_lunar_q, reward_lunar
               mcolors.TABLEAU_COLORS["tab:green"], mcolors.TABLEAU_COLORS["tab:orange"]]
 
     x = np.arange(len(reward_cartpole_dq))
+    avg_cartpole_q = np.zeros(len(reward_cartpole_q))
+    for i in range(len(avg_cartpole_q)):
+        avg_cartpole_q[i] = np.mean(reward_cartpole_q[max(0, i-100): (i+1)])
+    avg_cartpole_dq = np.zeros(len(reward_cartpole_dq))
+    for i in range(len(avg_cartpole_dq)):
+        avg_cartpole_dq[i] = np.mean(reward_cartpole_dq[max(0, i-100): (i+1)])
+    avg_lunar_q = np.zeros(len(reward_lunar_q))
+    for i in range(len(avg_lunar_q)):
+        avg_lunar_q[i] = np.mean(reward_lunar_q[max(0, i-100): (i+1)])
+    avg_lunar_dq = np.zeros(len(reward_cartpole_dq))
+    for i in range(len(avg_lunar_dq)):
+        avg_lunar_dq[i] = np.mean(reward_cartpole_dq[max(0, i-100): (i+1)])
 
-    plt.plot(x, reward_cartpole_q,
+    plt.plot(x, avg_cartpole_q,
              label=f"CartPole with Q Learning", color=colors[0])
-    plt.plot(x, reward_cartpole_dq,
+    plt.plot(x, avg_cartpole_dq,
              label=f"CartPole with Deep Q Learning", color=colors[1])
-    plt.plot(x, reward_lunar_q,
+    plt.plot(x, avg_lunar_q,
              label=f"LunarLander with Q Learning", color=colors[2])
-    plt.plot(x, reward_lunar_dq,
+    plt.plot(x, avg_lunar_dq,
              label=f"LunarLander with Deep Q Learning", color=colors[3])
     plt.legend(bbox_to_anchor=(1, 0.5), loc="best")
     plt.ylabel("Return")
