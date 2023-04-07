@@ -1,6 +1,8 @@
 # Methods
 - deep q learning in two games, discrete and continuous. and show the limitations of deep qlearning, as well as possible modifications to the algorithm for better performance in continuous action space
 
+I am implementing two reinforcement learning models, q learning and deep q learning and testing the two models on two games from the open ai gym environment. the two games that are being tested on are cartpole and lunar lander. 
+
 
 # Q learning
 - model free algorithm that learns to approximate the optimal q value function for a given env

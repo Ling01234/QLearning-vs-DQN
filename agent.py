@@ -97,7 +97,7 @@ class Agent_DQ():
         self.policy_network.opt.step()
 
     def train(self, episodes):
-        for episode in trange(1, episodes):
+        for episode in trange(1, episodes+1):
             episode_reward = 0
             state, _ = self.env.reset()
             state = torch.tensor(state, dtype=torch.float32,
