@@ -17,7 +17,7 @@ def cartpole_dq():
     rewards = agent.train_reward
     x = np.arange(len(rewards))
     plot(x, rewards, filename,
-         f"Deep Q Learning in CartPole with 1000 training episodes")
+         f"DQN in CartPole with 1000 training episodes")
     return rewards
 
 
@@ -48,7 +48,7 @@ def lunarlander_dq():
     rewards = agent.train_reward
     x = np.arange(len(rewards))
     plot(x, rewards, filename,
-         f"Deep Q Learning in Lunar Lander with 1000 training episodes")
+         f"DQN in Lunar Lander with 1000 training episodes")
     return rewards
 
 

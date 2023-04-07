@@ -27,10 +27,16 @@
 \usepackage{microtype}      % microtypography
 \usepackage{xcolor}         % colors
 \usepackage{graphicx}
+\usepackage{float}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\algnewcommand\algorithmicforeach{\textbf{for each}}
+\algdef{S}[FOR]{ForEach}[1]{\algorithmicforeach\ #1\ \algorithmicdo}
+
 % \usepackage{parskip}
 \graphicspath{{../plots/}}
 
-\title{Formatting Instructions For NeurIPS 2022}
+\title{Q Learning and Deep Q Network}
 
 \author{%
       Ling Fei Zhang\\
@@ -59,17 +65,11 @@ approach that can be used in a wide range of applications, from robotics and
 gaming to finance and healthcare. Among the many algorithms in reinforcement
 learning, Q Learning has been one of the most popular and most used. However, Q
 Learning also has its limitations when it comes to handling large state spaces
-and continuous action spaces. One of the proposed solution is Deep Q Learning
-(DQL), which combines Q Learning with deep neural networks to learn policies
-that can handle complexe state-action spaces.
-
-In this project, we will compare the performance of Q Learning and Deep Q
-Learning algorithms on two games from the OpenAI Gym environment: CartPole and
-Lunar Lander. CartPole is a game that involves balancing a pole on a cart by
-moving the cart left or right. On the other hand, Lunar Lander is a game that
-involves landing a spacecraft on a landing pad by controlling its thrusters.
-Both games have discrete action spaces, which make them suitable for testing
-the performance of Q Learning and DQL.
+and continuous action spaces. To solve this problem, significant progress has
+been made by exploting the advantages of deep learning in reinforcement
+learning, resulting in the ``Deep Q Network (DQN)'' algorithm
+\cite{DBLP:journals/corr/MnihKSGAWR13}. DQN combines Q Learning with deep
+neural networks to learn policies that can handle complexe state-action spaces.
 
 Q Learning is a model free reinforcement learning algorithm that uses a table
 to store the Q values for each state-action pair. The Q value repreesnts the
@@ -79,459 +79,133 @@ equation. To be more specific, the algorithm learns by updating the expected
 return in terms of the immediate reward and the expected return in the next
 state. In simple environments, Q Learning is very effective. However, the model
 struggle in more complex environments, usually due to the high dimensionality.
-This generally comes from the exponential increase in the number of states as
-the number of dimensions increase, making it impractical to store and update
-the Q values for all the state-action pairs.
+This is known as the curse of dimensionality, where the number of actions
+increases exponentialy with the number of degrees of freedom
+\cite{soft_update}, making it impractical to store and update the Q values for
+all the state-action pairs.
 
-To overcome the limitations of Q Learning, Deep Q Learning was introduced. DQL
-combines Q Learning with deep neural networks to learn policies that can handle
+To overcome the limitations of Q Learning, DQN was introduced. DQN combines Q
+Learning with deep neural networks to learn policies that can handle
 state-action spaces. The deep neural network approximates the Q values, which
 enables the agent to learn a function that maps the states to the Q values.
 Using neural networks as our function approximator, we can handle large state
 spaces as well as continuous action spaces.
 
-However, no algorithm is perfect, as DQL faces its own challenge of
-instability. In fact, DQL can be quite unstable during the learning process and
+However, no algorithm is perfect, as DQN faces its own challenge of
+instability. In fact, DQN can be quite unstable during the learning process and
 also requires careful hyperparameter tuning. The instability arises mainly from
 the non-stationarity of the learning process, where the Q values change as the
 agent learns, which then affects the target values used in the update rule. The
-need of careful tuning of hyperparameters arises from the complexity of the DQL
+need of careful tuning of hyperparameters arises from the complexity of the DQN
 algorithm, which involves the use of mutilple layers of neural networks,
 different learning rates and replay buffers.
 
-In this project, the aim is to compare the performance of Q Learning and Deep Q
-Learning in two games and observe the advantages and limitations of each
-algorithm. By comparing the results, we hope to gain insights into the
-strenghts and weaknesses of each algorithm and provide a better understanding
-of their performance in different environments. The motivation for this
-comparison comes from the need to understand the trade-offs between the two
-algorithms and their applicability in different scenarios.
+% In this project, the aim is to compare the performance of Q Learning and DQN in
+% two games and observe the advantages and limitations of each algorithm. By
+% comparing the results, we hope to gain insights into the strenghts and
+% weaknesses of each algorithm and provide a better understanding of their
+% performance in different environments. The motivation for this comparison comes
+% from the need to understand the trade-offs between the two algorithms and their
+% applicability in different scenarios.
 
 \section{Background}
 
+In this project, we will compare the performance of Q Learning and DQN
+algorithms on two games from the OpenAI Gym environment: CartPole and Lunar
+Lander. CartPole is a game that involves balancing a pole on a cart by moving
+the cart left or right. On the other hand, Lunar Lander is a game that involves
+landing a spacecraft on a landing pad by controlling its thrusters. Both games
+have discrete action spaces, which make them suitable for testing the
+performance of Q Learning and DQN.
+
 \section{Algorithm}
 
+\subsection{Q Learning}
+The idea of Q Learning is to select an action given a particular state from a
+function \(Q\), which the agent in turns receives an reward and a next state.
+The agent then updates \(Q\) in respect to maximizing the long term expected
+sum of rewards. The core of the Q Learning algorithm is defined by the update
+rule as follows
+\begin{equation}
+      Q(s_t, a_t) = Q(s_t, a_t) + \alpha \left[r_{t+1} + \gamma \max_{a} Q(s_{t+1}, a) - Q(s_t, a_t)\right]
+      \label{q_update_rule}
+\end{equation}
+
+In this case, the learned action-value function \(Q\) directly approximates
+\(q_*\), the optimal action-value function, independent of the policy being
+followed. As a result, this drastically simplifies the analysis of the
+algorithm. As it turns out, all that is required for proper convergence is that
+all state-action pairs continue to be updated\cite{sutton}. The full algorithm
+of Q Learning is presented below.
+
+\begin{algorithm}[H]
+      \caption{Q Learning(episodes, \(\alpha, \epsilon, \gamma\))}
+      \label{alg:qlearning}
+      \begin{algorithmic}[1]
+            \State Initialize \(Q(s,a)\) for all \(s \in \mathcal{S}, a \in \mathcal{A}(s)\) arbitrarily.
+            \State Set \(Q(terminal, \cdot) = 0 \) for all terminal states.
+            \ForEach {episode in episodes}
+            \State Initialize \(s\)
+            \State done \(\leftarrow\) False
+            \While {not done}
+            \State Choose \(a \in \mathcal{A}\) from \(s\) using policy derived from \(Q\) \Comment{\(\epsilon\)-greedy, Softmax}
+            \State Take action \(a\)
+            \State Observe reward \(r\) and next state \(s'\)
+            \State \(Q(s, a) \leftarrow Q(s, a) + \alpha \left[r + \gamma \max_{a} Q(s', a) - Q(s, a)\right]\)
+            \State \(s \leftarrow s'\)
+            \EndWhile
+            \EndFor
+      \end{algorithmic}
+\end{algorithm}
+
+In Algorithm \ref{alg:qlearning}, \(\alpha\) is the learning rate, \(0 < \gamma
+\leq 1\) is the discount factor, and \(\epsilon\) is the exploration factor for
+the agent.
+
+\subsection{Deep Q Network}
+
 \section{Methodology}
+\subsection{Q Learning}
+Q Learning's algorithm uses a table to store the Q values for each of the
+state-acion pairs, and its limitation lies on the dimensionality of the state
+space. In fact, since both the CartPole and Lunar Lander games have continuous
+observation space, it is practically impossible to store the Q values for all
+state-action pairs. Thus, we must first discretize the continuous states into
+discrete states \cite{discretization}. This can be done by taking the range of
+values for each feature of the state, and dividing the range into a specified
+number of bins. In the case that a feature has unlimited range (i.e. min =
+\(-\infty\) and max = \(\infty\)), we can set a minimum and maximum manually
+based on the observations. For example, in CartPole, the cart velocity and the
+pole angular velocity are unbounded. However, from the observations, we decided
+that a minimum of -3.5 and a maximum of 3.5 is a good range for the cart
+velocity. To train our agent, we simply pass the required arguments to the
+\verb+Agent_Q+ class, and train it on a desired number of episodes. In our
+case, we number of training episodes is 500 for both games.
+
+\subsection{DQN}
+To build our agent for DQN, a few more steps are necessary as we need a deep
+neural network to approximate our Q values. Since DQN is a off policy
+reinforcement learning algorithm, it uses a technique called experience replay.
+Thus, our first step is to implement \verb+ReplayMemory+, which acts as a
+replay buffer of past experiences. Each memory consist of a 5-tuple, namely
+(state, action, reward, next state, done). We also implemented the
+\verb+sample+ method since the algorithm learns by sampling from the buffer,
+and updates the Q network accordingly.
+
+Next, we implemented the deep neural network, which consists of two hidden
+layers, each with a default number of 128 units. We used \verb+ReLU+ activation
+function, \verb+Adam+'s optimizer and calculated our loss with
+\verb+SmoothL1Loss+. In the \verb+forward+ method, our network takes in a
+state, and outputs a Tensor of shape \verb+action_space+, each element
+corresponding to the Q value of the state-action pair.
 
 \section{Results}
 
 \section{Conclusion}
 
 \newpage
-% -----------------------------------------------------------------------------------------------------------
-\section{Submission of papers to NeurIPS 2022}
-
-Please read the instructions below carefully and follow them faithfully.
-
-\subsection{Style}
-
-Papers to be submitted to NeurIPS 2022 must be prepared according to the
-instructions presented here. Papers may only be up to {\bf nine} pages long,
-including figures. Additional pages \emph{containing only acknowledgments and
-      references} are allowed. Papers that exceed the page limit will not be
-reviewed, or in any other way considered for presentation at the conference.
-
-The margins in 2022 are the same as those in 2007, which allow for $\sim$$15\%$
-more words in the paper compared to earlier years.
-
-Authors are required to use the NeurIPS \LaTeX{} style files obtainable at the
-NeurIPS website as indicated below. Please make sure you use the current files
-and not previous versions. Tweaking the style files may be grounds for
-rejection.
-
-\subsection{Retrieval of style files}
-
-The style files for NeurIPS and other conference information are available on
-the World Wide Web at
-\begin{center}
-      \url{http://www.neurips.cc/}
-\end{center}
-The file \verb+neurips_2022.pdf+ contains these instructions and illustrates the
-various formatting requirements your NeurIPS paper must satisfy.
-
-The only supported style file for NeurIPS 2022 is \verb+neurips_2022.sty+,
-rewritten for \LaTeXe{}. \textbf{Previous style files for \LaTeX{} 2.09,
-      Microsoft Word, and RTF are no longer supported!}
-
-The \LaTeX{} style file contains three optional arguments: \verb+final+, which
-creates a camera-ready copy, \verb+preprint+, which creates a preprint for
-submission to, e.g., arXiv, and \verb+nonatbib+, which will not load the
-\verb+natbib+ package for you in case of package clash.
-
-\paragraph{Preprint option}
-If you wish to post a preprint of your work online, e.g., on arXiv, using the
-NeurIPS style, please use the \verb+preprint+ option. This will create a
-nonanonymized version of your work with the text ``Preprint. Work in
-progress.'' in the footer. This version may be distributed as you see fit.
-Please \textbf{do not} use the \verb+final+ option, which should \textbf{only}
-be used for papers accepted to NeurIPS.
-
-At submission time, please omit the \verb+final+ and \verb+preprint+ options.
-This will anonymize your submission and add line numbers to aid review. Please
-do \emph{not} refer to these line numbers in your paper as they will be removed
-during generation of camera-ready copies.
-
-The file \verb+neurips_2022.tex+ may be used as a ``shell'' for writing your
-paper. All you have to do is replace the author, title, abstract, and text of
-the paper with your own.
-
-The formatting instructions contained in these style files are summarized in
-Sections \ref{gen_inst}, \ref{headings}, and \ref{others} below.
-
-\section{General formatting instructions}
-\label{gen_inst}
-
-The text must be confined within a rectangle 5.5~inches (33~picas) wide and
-9~inches (54~picas) long. The left margin is 1.5~inch (9~picas). Use 10~point
-type with a vertical spacing (leading) of 11~points. Times New Roman is the
-preferred typeface throughout, and will be selected for you by default.
-Paragraphs are separated by \nicefrac{1}{2}~line space (5.5 points), with no
-indentation.
-
-The paper title should be 17~point, initial caps/lower case, bold, centered
-between two horizontal rules. The top rule should be 4~points thick and the
-bottom rule should be 1~point thick. Allow \nicefrac{1}{4}~inch space above and
-below the title to rules. All pages should start at 1~inch (6~picas) from the
-top of the page.
-
-For the final version, authors' names are set in boldface, and each name is
-centered above the corresponding address. The lead author's name is to be
-listed first (left-most), and the co-authors' names (if different address) are
-set to follow. If there is only one co-author, list both author and co-author
-side by side.
-
-Please pay special attention to the instructions in Section \ref{others}
-regarding figures, tables, acknowledgments, and references.
-
-\section{Headings: first level}
-\label{headings}
-
-All headings should be lower case (except for first word and proper nouns),
-flush left, and bold.
-
-First-level headings should be in 12-point type.
-
-\subsection{Headings: second level}
-
-Second-level headings should be in 10-point type.
-
-\subsubsection{Headings: third level}
-
-Third-level headings should be in 10-point type.
-
-\paragraph{Paragraphs}
-
-There is also a \verb+\paragraph+ command available, which sets the heading in
-bold, flush left, and inline with the text, with the heading followed by 1\,em
-of space.
-
-\section{Citations, figures, tables, references}
-\label{others}
-
-These instructions apply to everyone.
-
-\subsection{Citations within the text}
-
-The \verb+natbib+ package will be loaded for you by default. Citations may be
-author/year or numeric, as long as you maintain internal consistency. As to the
-format of the references themselves, any style is acceptable as long as it is
-used consistently.
-
-The documentation for \verb+natbib+ may be found at
-\begin{center}
-      \url{http://mirrors.ctan.org/macros/latex/contrib/natbib/natnotes.pdf}
-\end{center}
-Of note is the command \verb+\citet+, which produces citations appropriate for
-use in inline text.  For example,
-\begin{verbatim}
-   \citet{hasselmo} investigated\dots
-\end{verbatim}
-produces
-\begin{quote}
-      Hasselmo, et al.\ (1995) investigated\dots
-\end{quote}
-
-If you wish to load the \verb+natbib+ package with options, you may add the
-following before loading the \verb+neurips_2022+ package:
-\begin{verbatim}
-   \PassOptionsToPackage{options}{natbib}
-\end{verbatim}
-
-If \verb+natbib+ clashes with another package you load, you can add the
-optional argument \verb+nonatbib+ when loading the style file:
-\begin{verbatim}
-   \usepackage[nonatbib]{neurips_2022}
-\end{verbatim}
-
-As submission is double blind, refer to your own published work in the third
-person. That is, use ``In the previous work of Jones et al.\ [4],'' not ``In
-our previous work [4].'' If you cite your other papers that are not widely
-available (e.g., a journal paper under review), use anonymous author names in
-the citation, e.g., an author of the form ``A.\ Anonymous.''
-
-\subsection{Footnotes}
-
-Footnotes should be used sparingly. If you do require a footnote, indicate
-footnotes with a number\footnote{Sample of the first footnote.} in the text.
-Place the footnotes at the bottom of the page on which they appear. Precede the
-footnote with a horizontal rule of 2~inches (12~picas).
-
-Note that footnotes are properly typeset \emph{after} punctuation
-marks.\footnote{As in this example.}
-
-\subsection{Figures}
-
-\begin{figure}
-      \centering
-      \fbox{\rule[-.5cm]{0cm}{4cm} \rule[-.5cm]{4cm}{0cm}}
-      \caption{Sample figure caption.}
-\end{figure}
-
-All artwork must be neat, clean, and legible. Lines should be dark enough for
-purposes of reproduction. The figure number and caption always appear after the
-figure. Place one line space before the figure caption and one line space after
-the figure. The figure caption should be lower case (except for first word and
-proper nouns); figures are numbered consecutively.
-
-You may use color figures. However, it is best for the figure captions and the
-paper body to be legible if the paper is printed in either black/white or in
-color.
-
-\subsection{Tables}
-
-All tables must be centered, neat, clean and legible. The table number and
-title always appear before the table. See Table~\ref{sample-table}.
-
-Place one line space before the table title, one line space after the table
-title, and one line space after the table. The table title must be lower case
-(except for first word and proper nouns); tables are numbered consecutively.
-
-Note that publication-quality tables \emph{do not contain vertical rules.} We
-strongly suggest the use of the \verb+booktabs+ package, which allows for
-typesetting high-quality, professional tables:
-\begin{center}
-      \url{https://www.ctan.org/pkg/booktabs}
-\end{center}
-This package was used to typeset Table~\ref{sample-table}.
-
-\begin{table}
-      \caption{Sample table title}
-      \label{sample-table}
-      \centering
-      \begin{tabular}{lll}
-            \toprule
-            \multicolumn{2}{c}{Part}                   \\
-            \cmidrule(r){1-2}
-            Name     & Description     & Size ($\mu$m) \\
-            \midrule
-            Dendrite & Input terminal  & $\sim$100     \\
-            Axon     & Output terminal & $\sim$10      \\
-            Soma     & Cell body       & up to $10^6$  \\
-            \bottomrule
-      \end{tabular}
-\end{table}
-
-\section{Final instructions}
-
-Do not change any aspects of the formatting parameters in the style files. In
-particular, do not modify the width or length of the rectangle the text should
-fit into, and do not change font sizes (except perhaps in the
-\textbf{References} section; see below). Please note that pages should be
-numbered.
-
-\section{Preparing PDF files}
-
-Please prepare submission files with paper size ``US Letter,'' and not, for
-example, ``A4.''
-
-Fonts were the main cause of problems in the past years. Your PDF file must
-only contain Type 1 or Embedded TrueType fonts. Here are a few instructions to
-achieve this.
-
-\begin{itemize}
-
-      \item You should directly generate PDF files using \verb+pdflatex+.
-
-      \item You can check which fonts a PDF files uses. In Acrobat Reader, select the menu
-            Files$>$Document Properties$>$Fonts and select Show All Fonts. You can also use
-            the program \verb+pdffonts+ which comes with \verb+xpdf+ and is available
-            out-of-the-box on most Linux machines.
-
-      \item The IEEE has recommendations for generating PDF files whose fonts are also
-            acceptable for NeurIPS. Please see
-            \url{http://www.emfield.org/icuwb2010/downloads/IEEE-PDF-SpecV32.pdf}
-
-      \item \verb+xfig+ "patterned" shapes are implemented with bitmap fonts.  Use
-            "solid" shapes instead.
-
-      \item The \verb+\bbold+ package almost always uses bitmap fonts. You should use the
-            equivalent AMS Fonts:
-            \begin{verbatim}
-   \usepackage{amsfonts}
-\end{verbatim}
-            followed by, e.g., \verb+\mathbb{R}+, \verb+\mathbb{N}+, or \verb+\mathbb{C}+
-            for $\mathbb{R}$, $\mathbb{N}$ or $\mathbb{C}$. You can also use the following
-            workaround for reals, natural and complex:
-            \begin{verbatim}
-   \newcommand{\RR}{I\!\!R} %real numbers
-   \newcommand{\Nat}{I\!\!N} %natural numbers
-   \newcommand{\CC}{I\!\!\!\!C} %complex numbers
-\end{verbatim}
-            Note that \verb+amsfonts+ is automatically loaded by the \verb+amssymb+
-            package.
-
-\end{itemize}
-
-If your file contains type 3 fonts or non embedded TrueType fonts, we will ask
-you to fix it.
-
-\subsection{Margins in \LaTeX{}}
-
-Most of the margin problems come from figures positioned by hand using
-\verb+\special+ or other commands. We suggest using the command
-\verb+\includegraphics+ from the \verb+graphicx+ package. Always specify the
-figure width as a multiple of the line width as in the example below:
-\begin{verbatim}
-   \usepackage[pdftex]{graphicx} ...
-   \includegraphics[width=0.8\linewidth]{myfile.pdf}
-\end{verbatim}
-See Section 4.4 in the graphics bundle documentation
-(\url{http://mirrors.ctan.org/macros/latex/required/graphics/grfguide.pdf})
-
-A number of width problems arise when \LaTeX{} cannot properly hyphenate a
-line. Please give LaTeX hyphenation hints using the \verb+\-+ command when
-necessary.
-
-\begin{ack}
-      Use unnumbered first level headings for the acknowledgments. All acknowledgments
-      go at the end of the paper before the list of references. Moreover, you are required to declare
-      funding (financial activities supporting the submitted work) and competing interests (related financial activities outside the submitted work).
-      More information about this disclosure can be found at: \url{https://neurips.cc/Conferences/2022/PaperInformation/FundingDisclosure}.
-
-      Do {\bf not} include this section in the anonymized submission, only in the
-      final paper. You can use the \texttt{ack} environment provided in the style
-      file to autmoatically hide this section in the anonymized submission.
-\end{ack}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section*{Checklist}
-
-%%% BEGIN INSTRUCTIONS %%%
-The checklist follows the references. Please read the checklist guidelines
-carefully for information on how to answer these questions. For each question,
-change the default \answerTODO{} to \answerYes{}, \answerNo{}, or \answerNA{}.
-You are strongly encouraged to include a {\bf justification to your answer},
-either by referencing the appropriate section of your paper or providing a
-brief inline description. For example:
-\begin{itemize}
-      \item Did you include the license to the code and datasets? \answerYes{See
-                  Section~\ref{gen_inst}.}
-      \item Did you include the license to the code and datasets? \answerNo{The code and
-                  the data are proprietary.}
-      \item Did you include the license to the code and datasets? \answerNA{}
-\end{itemize}
-Please do not modify the questions and only use the provided macros for your
-answers.  Note that the Checklist section does not count towards the page
-limit.  In your paper, please delete this instructions block and only keep the
-Checklist section heading above along with the questions/answers below.
-%%% END INSTRUCTIONS %%%
-
-\begin{enumerate}
-
-      \item For all authors...
-            \begin{enumerate}
-                  \item Do the main claims made in the abstract and introduction accurately reflect the
-                        paper's contributions and scope? \answerTODO{}
-                  \item Did you describe the limitations of your work? \answerTODO{}
-                  \item Did you discuss any potential negative societal impacts of your work?
-                        \answerTODO{}
-                  \item Have you read the ethics review guidelines and ensured that your paper conforms
-                        to them? \answerTODO{}
-            \end{enumerate}
-
-      \item If you are including theoretical results...
-            \begin{enumerate}
-                  \item Did you state the full set of assumptions of all theoretical results?
-                        \answerTODO{}
-                  \item Did you include complete proofs of all theoretical results? \answerTODO{}
-            \end{enumerate}
-
-      \item If you ran experiments...
-            \begin{enumerate}
-                  \item Did you include the code, data, and instructions needed to reproduce the main
-                        experimental results (either in the supplemental material or as a URL)?
-                        \answerTODO{}
-                  \item Did you specify all the training details (e.g., data splits, hyperparameters,
-                        how they were chosen)? \answerTODO{}
-                  \item Did you report error bars (e.g., with respect to the random seed after running
-                        experiments multiple times)? \answerTODO{}
-                  \item Did you include the total amount of compute and the type of resources used
-                        (e.g., type of GPUs, internal cluster, or cloud provider)? \answerTODO{}
-            \end{enumerate}
-
-      \item If you are using existing assets (e.g., code, data, models) or
-            curating/releasing new assets...
-            \begin{enumerate}
-                  \item If your work uses existing assets, did you cite the creators? \answerTODO{}
-                  \item Did you mention the license of the assets? \answerTODO{}
-                  \item Did you include any new assets either in the supplemental material or as a URL?
-                        \answerTODO{}
-                  \item Did you discuss whether and how consent was obtained from people whose data
-                        you're using/curating? \answerTODO{}
-                  \item Did you discuss whether the data you are using/curating contains personally
-                        identifiable information or offensive content? \answerTODO{}
-            \end{enumerate}
-
-      \item If you used crowdsourcing or conducted research with human subjects...
-            \begin{enumerate}
-                  \item Did you include the full text of instructions given to participants and
-                        screenshots, if applicable? \answerTODO{}
-                  \item Did you describe any potential participant risks, with links to Institutional
-                        Review Board (IRB) approvals, if applicable? \answerTODO{}
-                  \item Did you include the estimated hourly wage paid to participants and the total
-                        amount spent on participant compensation? \answerTODO{}
-            \end{enumerate}
-
-\end{enumerate}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\appendix
-
-\section{Appendix}
-
-Optionally include extra information (complete proofs, additional experiments
-and plots) in the appendix. \cite{pytorch_sac}This section will often be part
-of the supplemental material.
-
-\section*{References}
-
-References \cite{latexcompanion}follow the acknowledgments. Use unnumbered
-first-level heading for the references. Any choice of citation style is
-acceptable as long as you are consistent. It is permissible to reduce the font
-size to \verb+small+ (9 point) when listing the references. Note that the
-Reference section does not count towards the page limit. \medskip
-
-{
-\small
-
-[1] Alexander, J.A.\ \& Mozer, M.C.\ (1995) Template-based algorithms for
-connectionist rule extraction. In G.\ Tesauro, D.S.\ Touretzky and T.K.\ Leen
-(eds.), {\it Advances in Neural Information Processing Systems 7},
-pp.\ 609--616. Cambridge, MA: MIT Press.
-
-      [2] Bower, J.M.\ \& Beeman, D.\ (1995) {\it The Book of GENESIS: Exploring
-            Realistic Neural Models with the GEneral NEural SImulation System.}  New York:
-TELOS/Springer--Verlag.
-
-[3] Hasselmo, M.E., Schnell, E.\ \& Barkai, E.\ (1995) Dynamics of learning and
-recall at excitatory recurrent synapses and cholinergic modulation in rat
-hippocampal region CA3. {\it Journal of Neuroscience} {\bf 15}(7):5249-5262.
-}
-
-\newpage
 \nocite{*}
-\bibliographystyle{ksfh_nat}
+\bibliographystyle{plain}
 \bibliography{References}
 
 \end{document}

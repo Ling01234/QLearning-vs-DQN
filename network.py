@@ -24,7 +24,6 @@ class DQNetwork(nn.Module):
         self.fc2 = nn.Linear(self.fc1_dim, self.fc2_dim)
         self.fc3 = nn.Linear(self.fc2_dim, self.action_space)
         self.opt = optim.Adam(self.parameters(), lr=self.alpha)
-        self.loss = nn.MSELoss()
         self.to(self.device)
 
     def forward(self, state):
