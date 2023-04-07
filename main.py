@@ -14,7 +14,12 @@ def cartpole_dq():
                      epsilon_decay=5e-4, epsilon_end=0.01, tau=0.005, batch_size=64)
 
     filename = "plots/cartpole.png"
-    agent.train(500, filename=filename)
+    agent.train(1000)
+    rewards = agent.train_reward
+    x = np.arange(len(rewards))
+    plot(x, rewards, filename,
+         f"Deep Q Learning in CartPole with 1000 training episodes")
+    return rewards
 
 
 def cartpole_q():
@@ -27,11 +32,12 @@ def cartpole_q():
 
     agent = Agent_Q(env=env_cartpole, alpha=0.15, gamma=0.99, epsilon=1.0, num_bins=10,
                     epsilon_decay=5e-4, epsilon_end=0.01, lowerbounds=lowerbounds, upperbounds=upperbounds)
-    agent.train(2000)
+    agent.train(1000)
     rewards = agent.reward
     x = np.arange(len(rewards))
     filename = "plots/cartpole with QLearning"
-    plot(x, rewards, filename)
+    plot(x, rewards, filename, f"Q Learning in CartPole with 1000 training episodes")
+    return rewards
 
 
 def lunarlander_dq():
@@ -39,7 +45,12 @@ def lunarlander_dq():
                      epsilon_decay=5e-4, epsilon_end=0.01, tau=0.005, batch_size=64)
 
     filename = "plots/lunar_lander.png"
-    agent.train(500, filename=filename)
+    agent.train(1000)
+    rewards = agent.train_reward
+    x = np.arange(len(rewards))
+    plot(x, rewards, filename,
+         f"Deep Q Learning in Lunar Lander with 1000 training episodes")
+    return rewards
 
 
 def lunarlander_q():
@@ -47,15 +58,19 @@ def lunarlander_q():
     lowerbounds = env_lunar_lander.observation_space.low
     agent = Agent_Q(env=env_lunar_lander, alpha=0.01, epsilon=1.0, upperbounds=upperbounds, lowerbounds=lowerbounds,
                     num_bins=10, gamma=0.99)
-    agent.train(2000)
+    agent.train(1000)
     rewards = agent.reward
     x = np.arange(len(rewards))
     filename = "plots/lunarlander with QLearning"
-    plot(x, rewards, filename)
+    plot(x, rewards, filename,
+         f"Q Learning in Lunar Lander with 1000 training episodes")
+    return rewards
 
 
 if __name__ == "__main__":
-    # cartpole_dq()
-    # cartpole_q()
-    # lunarlander_dq()
-    lunarlander_q()
+    reward_cartpole_dq = cartpole_dq()
+    reward_cartpole_q = cartpole_q()
+    reward_lunar_dq = lunarlander_dq()
+    reward_lunar_q = lunarlander_q()
+    plot_all(reward_cartpole_dq=reward_cartpole_dq, reward_cartpole_q=reward_cartpole_q,
+             reward_lunar_dq=reward_lunar_dq, reward_lunar_q=reward_lunar_q)

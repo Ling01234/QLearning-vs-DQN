@@ -24,6 +24,7 @@ class Agent_DQ():
         self.batch_size = batch_size
         self.show_result = show_result
         self.episode_durations = []
+        self.train_reward = []
 
         self.policy_network = DQNetwork(self.alpha, self.n_observations, fc1_dim=128, fc2_dim=128,
                                         action_space=self.n_actions)
@@ -95,16 +96,18 @@ class Agent_DQ():
         torch.nn.utils.clip_grad_value_(self.policy_network.parameters(), 100)
         self.policy_network.opt.step()
 
-    def train(self, episodes, filename):
+    def train(self, episodes):
         for episode in trange(1, episodes):
+            episode_reward = 0
             state, _ = self.env.reset()
             state = torch.tensor(state, dtype=torch.float32,
                                  device=self.policy_network.device).unsqueeze(0)
-
-            for t in count():
+            done = False
+            while not done:
                 action = self.select_action(state)
                 next_state, reward, terminal, truncated, _ = self.env.step(
                     action.item())
+                episode_reward += reward
 
                 reward = torch.tensor(
                     [reward], device=self.policy_network.device)
@@ -130,17 +133,19 @@ class Agent_DQ():
                         target_network_state_dict[key] * (1-self.tau)
                 self.target_network.load_state_dict(target_network_state_dict)
 
-                if done:
-                    self.episode_durations.append(t + 1)
-                    plot_durations(self.episode_durations,
-                                   env_name=self.env.spec.id, show_result=False)
-                    break
+                # if done:
+                #     # self.episode_durations.append(t + 1)
+                #     # plot_durations(self.episode_durations,
+                #     #                env_name=self.env.spec.id, show_result=False)
+                #     break
 
-        plot_durations(self.episode_durations,
-                       env_name=self.env.spec.id, show_result=self.show_result)
-        plt.ioff()
-        plt.savefig(filename)
-        plt.show()
+            self.train_reward.append(episode_reward)
+
+        # plot_durations(self.episode_durations,
+        #                env_name=self.env.spec.id, show_result=self.show_result)
+        # plt.ioff()
+        # plt.savefig(filename)
+        # plt.show()
 
 
 class Agent_Q:
@@ -224,7 +229,7 @@ class Agent_Q:
         """
         Simulate a specified number of episodes
         """
-        for episode in range(1, num_episodes+1):
+        for episode in trange(1, num_episodes+1):
             # reset env
             (state, _) = self.env.reset()
             state = list(state)
@@ -267,3 +272,25 @@ class Agent_Q:
             loss = reward - self.Qvalues[state + (action,)]
 
         self.Qvalues[state + (action,)] += self.alpha * loss
+
+    def test(self, episodes):
+        state, _ = self.env.reset()
+        state = list(state)
+        rewards = []
+
+        for episode in range(1, episodes):
+            episode_reward = 0
+            done = False
+            while not done:
+                discritized_state = self.discritize_state(state)
+                best_actions = np.where(self.Qvalues[discritized_state] == np.max(
+                    self.Qvalues[discritized_state]))[0]
+                action = np.random.choice(best_actions)
+
+                next_state, reward, done, *_ = self.env.step(action)
+                episode_reward += reward
+                state = next_state
+
+            rewards.append(episode_reward)
+
+        return rewards
