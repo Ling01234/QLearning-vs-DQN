@@ -163,6 +163,21 @@ In Algorithm \ref{alg:qlearning}, \(\alpha\) is the learning rate, \(0 < \gamma
 the agent.
 
 \subsection{Deep Q Network}
+\begin{algorithm}
+      \caption{DQN learn(episodes, \(\alpha, \epsilon, \gamma\))}
+      \label{alg:dqn_learn}
+      \begin{algorithmic}[1]
+            \State hello
+      \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+      \caption{DQN train(episodes, \(\alpha, \epsilon, \gamma\))}
+      \label{alg:dqn_train}
+      \begin{algorithmic}[1]
+            \State hello
+      \end{algorithmic}
+\end{algorithm}
 
 \section{Methodology}
 \subsection{Q Learning}
@@ -198,6 +213,13 @@ function, \verb+Adam+'s optimizer and calculated our loss with
 \verb+SmoothL1Loss+. In the \verb+forward+ method, our network takes in a
 state, and outputs a Tensor of shape \verb+action_space+, each element
 corresponding to the Q value of the state-action pair.
+
+With this, we can build our RL agent. We built the agent with both a policy as
+well as a target network in order to make learning more stable. For our
+experiment, we initialized a replay buffer of size 100000, and trained our
+agent for 500 episodes. The actions are sampled based on an epsilon-greedy
+exploration. Finally, the agent learns following Algorithm \ref{alg:dqn_learn}
+and trains following Algorithm \ref{alg:dqn_train}.
 
 \section{Results}
 
