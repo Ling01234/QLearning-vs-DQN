@@ -3,44 +3,50 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: Report.aux
 The style file: plain.bst
 Database file #1: References.bib
-You've used 5 entries,
+Warning--empty journal in states_vs_rewards
+Warning--there's a number but no volume in states_vs_rewards
+Warning--empty booktitle in neural_network
+Warning--empty journal in feedback_control
+Warning--can't use both volume and number fields in ddpg
+You've used 17 entries,
             2118 wiz_defined-function locations,
-            520 strings with 4766 characters,
-and the built_in function-call counts, 1493 in all, are:
-= -- 124
-> -- 108
-< -- 0
-+ -- 44
-- -- 38
-* -- 97
-:= -- 268
-add.period$ -- 12
-call.type$ -- 5
-change.case$ -- 34
+            600 strings with 6977 characters,
+and the built_in function-call counts, 5709 in all, are:
+= -- 519
+> -- 344
+< -- 5
++ -- 134
+- -- 115
+* -- 401
+:= -- 982
+add.period$ -- 51
+call.type$ -- 17
+change.case$ -- 104
 chr.to.int$ -- 0
-cite$ -- 5
-duplicate$ -- 43
-empty$ -- 106
-format.name$ -- 38
-if$ -- 296
+cite$ -- 22
+duplicate$ -- 207
+empty$ -- 413
+format.name$ -- 115
+if$ -- 1177
 int.to.chr$ -- 0
-int.to.str$ -- 5
-missing$ -- 3
-newline$ -- 25
-num.names$ -- 10
-pop$ -- 50
+int.to.str$ -- 17
+missing$ -- 15
+newline$ -- 85
+num.names$ -- 40
+pop$ -- 122
 preamble$ -- 1
-purify$ -- 29
+purify$ -- 87
 quote$ -- 0
-skip$ -- 39
+skip$ -- 161
 stack$ -- 0
-substring$ -- 26
-swap$ -- 5
-text.length$ -- 0
+substring$ -- 207
+swap$ -- 46
+text.length$ -- 5
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 18
-warning$ -- 0
-while$ -- 10
-width$ -- 6
-write$ -- 48
+type$ -- 66
+warning$ -- 5
+while$ -- 47
+width$ -- 19
+write$ -- 180
+(There were 5 warnings)

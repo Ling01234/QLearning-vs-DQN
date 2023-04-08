@@ -58,11 +58,11 @@ In recent years, reinforcement learning has gained considerable attention as it
 is a powerful approach that can be used in a wide range of applications. Among
 the many algorithms in reinforcement learning, Q Learning has been one of the
 most popular and most used. However, its limitations become clear when it tries
-to handle problems with large state spaces and continuous action spaces. To
-solve this problem, significant progress has been made by exploting the
-advantages of deep learning, resulting in the ``Deep Q Network (DQN)''
-algorithm \cite{DBLP:journals/corr/MnihKSGAWR13}. In this project, the two
-algorithms will be tested against each other in the context of two games:
+to handle problems with large state spaces and continuous action spaces
+\cite{qlearning}. To solve this problem, significant progress has been made by
+exploting the advantages of deep learning, resulting in the ``Deep Q Network
+(DQN)'' algorithm \cite{DBLP:journals/corr/MnihKSGAWR13}. In this project, the
+two algorithms will be tested against each other in the context of two games:
 CartPole and Lunar Lander.
 
 Q Learning is a model free reinforcement learning algorithm that uses a table
@@ -79,7 +79,8 @@ Learning with deep neural networks to learn policies that can handle
 state-action spaces. The deep neural network approximates the Q values, which
 enables the agent to learn a function that maps the states to the Q values.
 Using neural networks as our function approximator, we can handle large state
-spaces as well as continuous action spaces.
+spaces as well as continuous action spaces
+\cite{function_approximation,temporal_diff}.
 
 \section{Background}
 
@@ -168,20 +169,21 @@ rates for CartPole and Lunar Lander are 0.25 and 0.005 respectively.
 \subsection{DQN}
 To build our agent for DQN, a few steps are necessary as we need a deep neural
 network to approximate our Q values. Since DQN is an off policy reinforcement
-learning algorithm, it uses a technique called experience replay. Thus, our
-first step is to implement \verb+ReplayMemory+, which acts as a replay buffer
-of past experiences. Each memory consist of a 5-tuple, namely (state, action,
-reward, next state, done). We also implemented the \verb+sample+ method since
-the algorithm learns by sampling from the buffer, and updates the Q network
-accordingly.
+learning algorithm, it uses a technique called experience replay
+\cite{replay,learning_control}. Thus, our first step is to implement
+\verb+ReplayMemory+, which acts as a replay buffer of past experiences. Each
+memory consist of a 5-tuple, namely (state, action, reward, next state, done).
+We also implemented the \verb+sample+ method since the algorithm learns by
+sampling from the buffer, and updates the Q network accordingly.
 
 Next, we implemented the deep neural network, which consists of two hidden
 layers, each with a default number of 128 units. We used \verb+ReLU+ activation
 function, \verb+Adam+'s optimizer and calculated our loss with
 \verb+SmoothL1Loss+. We decided to use the Huber loss during our implementation
 to make our agent more robust to outliers when the estimates of Q values are
-noisy. In fact, the Huber loss acts like the mean squarred error when the error
-is small, and acts like the mean absolute error when it's large \cite{hubert}.
+noisy \cite{noise}. In fact, the Huber loss acts like the mean squarred error
+when the error is small, and acts like the mean absolute error when it's large
+\cite{hubert}.
 
 With this, we can build our RL agent. We built the agent with both a policy as
 well as a target network in order to make learning more stable. For our
@@ -296,9 +298,9 @@ that the choice of algorithm depends on the specific application and trade-offs
 between speed and stability.
 
 \paragraph{Future Work} As a future direction, we suggest exploring modifications of Deep Q Learning,
-such as deep deterministic policy gradient (DDPG), which combines Q Learning
-with policy gradients to learn a deterministic policy directly. This approach
-has been shown to be effective in continuous action spaces and could
+such as deep deterministic policy gradient (DDPG) \cite{ddpg}, which combines Q
+Learning with policy gradients to learn a deterministic policy directly. This
+approach has been shown to be effective in continuous action spaces and could
 potentially address some of the instability issues observed in DQN.
 
 \newpage

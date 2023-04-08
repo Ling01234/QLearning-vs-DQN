@@ -33,5 +33,4 @@ I am implementing two reinforcement learning models, q learning and deep q learn
 
 
 # To do
-- add references all over the paper
 - correct paper syntaxically
