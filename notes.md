@@ -33,3 +33,4 @@ I am implementing two reinforcement learning models, q learning and deep q learn
 
 
 # To do
+- presentation
