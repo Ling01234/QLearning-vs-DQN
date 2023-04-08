@@ -34,8 +34,7 @@
 \usepackage{caption, subcaption}
 \algnewcommand\algorithmicforeach{\textbf{for each}}
 \algdef{S}[FOR]{ForEach}[1]{\algorithmicforeach\ #1\ \algorithmicdo}
-
-% \usepackage{parskip}
+\newcommand{\e}[1]{\mathbb{E}(#1)}
 \graphicspath{{../plots/}}
 
 \title{Q Learning and Deep Q Network}
@@ -50,7 +49,7 @@
 \maketitle
 
 \begin{abstract}
-      In this paper, we compare two widely used RL algorithms, Q Learning and Deep Q Network (DQN), in the context of two games, CartPole and Lunar Lander. Our results demonstrate that DQN learns faster than Q Learning, but can be more unstable during the learning process. In constrast, Q Learning leanrs more steadily but at a slower rate. These findings usggest that the choice of the algorithm depends on the specific application and trade-offs between speed and stability. Our work contributes to the understanding of the performance characteristics of Q Learning and DQN, and can help guide the selection of RL algorithms for similar tasks in the future.
+      In this paper, we compare two widely used RL algorithms, Q Learning and Deep Q Network (DQN), in the context of two games, CartPole and Lunar Lander. Our results demonstrate that DQN learns faster than Q Learning, but can be more unstable during the learning process. In constrast, Q Learning learns more steadily but at a slower rate. These findings suggest that the choice of the algorithm depends on the specific application and trade-offs between speed and stability.
 \end{abstract}
 
 \section{Introduction}
@@ -68,6 +67,8 @@ been made by exploting the advantages of deep learning in reinforcement
 learning, resulting in the ``Deep Q Network (DQN)'' algorithm
 \cite{DBLP:journals/corr/MnihKSGAWR13}. DQN combines Q Learning with deep
 neural networks to learn policies that can handle complexe state-action spaces.
+In this project, the two models will be tested against each other in the
+context of two games: CartPole and Lunar Lander.
 
 Q Learning is a model free reinforcement learning algorithm that uses a table
 to store the Q values for each state-action pair. The Q value repreesnts the
@@ -98,24 +99,41 @@ need of careful tuning of hyperparameters arises from the complexity of the DQN
 algorithm, which involves the use of mutilple layers of neural networks,
 different learning rates and replay buffers.
 
-% In this project, the aim is to compare the performance of Q Learning and DQN in
-% two games and observe the advantages and limitations of each algorithm. By
-% comparing the results, we hope to gain insights into the strenghts and
-% weaknesses of each algorithm and provide a better understanding of their
-% performance in different environments. The motivation for this comparison comes
-% from the need to understand the trade-offs between the two algorithms and their
-% applicability in different scenarios.
-
 \section{Background}
 
-In this project, we will compare the performance of Q Learning and DQN
-algorithms on two games from the OpenAI Gym environment: CartPole and Lunar
-Lander. CartPole is a game that involves balancing a pole on a cart by moving
-the cart left or right. On the other hand, Lunar Lander is a game that involves
-landing a spacecraft on a landing pad by controlling its thrusters. Both games
-have discrete action spaces, which make them suitable for testing the
-performance of Q Learning and DQN.
+We consider tasks where the agnet interacts with two environments: CartPole and
+Lunar Lander. Both environments have some level of stochasticity, as they have
+random initial states. At each time step, the agent must learn to select and
+action \(a_t \in \mathcal{A} = \{1, \hdots, K\}\). The action is then executed
+and a reward and the next state is observed. In fact, any episode can be
+defined as a sequence of the form \(s_1, a_1, s_2, a_2, \hdots, a_{n-1}, s_n\),
+where \(s_n\) is a terminal state. All sequences are assumed to terminate in a
+finite number of time step. As a result, we have that all sequences are finite
+Markov decision processes (MDP) \cite{DBLP:journals/corr/MnihKSGAWR13}.
 
+The goal of the agent is to select actions in a way such that the sum of
+rewards is maximized. We make the assumption that future rewards are discounted
+by a factor \(\gamma\) at each time step, and we define the future discounted
+return at time \(t\) as
+\begin{equation}
+      R_t = \sum_{t' = t}^{T} \gamma^{t' - t}t_{t'}
+\end{equation}
+where \(T\) is the time step at which the game terminates.
+
+Then, we define the optimal action-value function \(Q^*(s,a)\) to be the
+function that achieves the maximum expected return. Formally, this means that
+after observing some state \(s\) and taking some action \(a\), we we must have
+\begin{equation}
+      Q^*(s,a) = \max_\pi \e{R_t | s_t = s, a_t = a, \pi}
+\end{equation}
+where \(\pi\) is a policy mapping states to actions.
+
+It's important to note that the optimal action-value function follows an
+important identity: the \emph{Bellman Equation}. The basic intuition of the
+\emph{Belleman Equation} is as follows: if we know the the optimal value
+\(Q^*(s',a')\) for all actions \(a'\) of the next time step, then the optimal
+strategy is simply to select the action \(a'\) such that we maximize the
+expected value of \((r + \gamma Q^*(s',a'))\).
 \section{Methodology}
 \subsection{Q Learning}
 The idea of Q Learning is to select an action given a particular state from a

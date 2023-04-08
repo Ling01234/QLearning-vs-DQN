@@ -1,20 +1,20 @@
 # Fdb version 4
-["bibtex Report"] 1680921434 "Report.aux" "Report.bbl" "Report" 1680921437 0
+["bibtex Report"] 1680968707 "Report.aux" "Report.bbl" "Report" 1680968710 0
   "./References.bib" 1680920923 2524 19335eb6b078014be5aec8f14e0b7fac ""
-  "Report.aux" 1680921436 4420 6cb6433e90b74e1cdc9d7ef5e122da60 "pdflatex"
+  "Report.aux" 1680968709 4463 8302b81dba7c629c7352e7b85e97e93d "pdflatex"
   "c:/texlive/2022/texmf-dist/bibtex/bst/base/plain.bst" 1665006754 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
   (generated)
   "Report.bbl"
   "Report.blg"
   (rewritten before read)
-["pdflatex"] 1680921435 "c:/Users/Ling0/Dropbox/School/McGill/Winter 2023/COMP 579/Final Project/Report/Report.tex" "Report.pdf" "Report" 1680921437 0
+["pdflatex"] 1680968708 "c:/Users/Ling0/Dropbox/School/McGill/Winter 2023/COMP 579/Final Project/Report/Report.tex" "Report.pdf" "Report" 1680968710 0
   "../plots//cartpole.png" 1680916377 40910 ac0d02a6253e602f466618a5dbb39659 ""
   "../plots//lunar.png" 1680916377 41506 4d430a7b3bd60e118eff54326e68ca59 ""
-  "Report.aux" 1680921436 4420 6cb6433e90b74e1cdc9d7ef5e122da60 "pdflatex"
-  "Report.bbl" 1680921435 1051 fb02ac5253ebb163b0495742d3c0e2e1 "bibtex Report"
-  "Report.out" 1680921436 1198 e6dfadbc35f7d34607bdb8c272502375 "pdflatex"
-  "Report.tex" 1680921431 17769 b892d72beecd51b639d3650e90866abe ""
-  "c:/Users/Ling0/Dropbox/School/McGill/Winter 2023/COMP 579/Final Project/Report/Report.tex" 1680921431 17769 b892d72beecd51b639d3650e90866abe ""
+  "Report.aux" 1680968709 4463 8302b81dba7c629c7352e7b85e97e93d "pdflatex"
+  "Report.bbl" 1680968708 1051 fb02ac5253ebb163b0495742d3c0e2e1 "bibtex Report"
+  "Report.out" 1680968709 1198 e6dfadbc35f7d34607bdb8c272502375 "pdflatex"
+  "Report.tex" 1680968705 18609 5e449e93c62ee8b062a98d5774b96b2f ""
+  "c:/Users/Ling0/Dropbox/School/McGill/Winter 2023/COMP 579/Final Project/Report/Report.tex" 1680968705 18609 5e449e93c62ee8b062a98d5774b96b2f ""
   "c:/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc" 1662937464 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "c:/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1662937251 2971 def0b6c1f0b107b3b936def894055589 ""
   "c:/texlive/2022/texmf-dist/fonts/map/fontname/texfonts.map" 1665006780 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -38,7 +38,9 @@
   "c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1662936931 35752 024fb6c41858982481f6968b5fc26508 ""
   "c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb" 1662936931 32762 7fee39e011c23b3589931effd97b9702 ""
   "c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1662936931 32569 5e5ddc8df908dea60932f3c484a54c0d ""
+  "c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb" 1662936931 32915 7bf7720c61a5b3a7ff25b0964421c9b6 ""
   "c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb" 1662936931 32716 08e384dc442464e7285e891af9f45947 ""
+  "c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb" 1662936931 34694 870c211f62cb72718a00e353f14f254d ""
   "c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb" 1662937251 169201 651a6333c3213b38091f54d2ab2d2cd6 ""
   "c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmb8a.pfb" 1662939078 44729 fea0975e20ec51c992338362f05f1146 ""
   "c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmr8a.pfb" 1662939078 46026 687528a208fbfc1f00832bb96cccebbb ""
