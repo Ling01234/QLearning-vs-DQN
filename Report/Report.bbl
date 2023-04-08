@@ -1,8 +1,5 @@
 \begin{thebibliography}{1}
 
-\bibitem{discretization}
-When should discretization of observations be considerd?, 2022.
-
 \bibitem{discretization_tech}
 Rohan Gupta.
 \newblock An introduction to discretization techniques for data scientists,
