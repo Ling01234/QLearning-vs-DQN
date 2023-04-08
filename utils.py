@@ -36,13 +36,31 @@ def plot_all(reward_cartpole_q, reward_cartpole_dq, reward_lunar_q, reward_lunar
     plt.plot(x, avg_cartpole_q,
              label=f"CartPole with Q Learning", color=colors[0])
     plt.plot(x, avg_cartpole_dq,
-             label=f"CartPole with Deep Q Learning", color=colors[1])
-    plt.plot(x, avg_lunar_q,
-             label=f"LunarLander with Q Learning", color=colors[2])
-    plt.plot(x, avg_lunar_dq,
-             label=f"LunarLander with Deep Q Learning", color=colors[3])
+             label=f"CartPole with Deep Q Learning", color=colors[2])
+
     plt.legend(bbox_to_anchor=(1, 0), loc="lower right")
     plt.ylabel("Return")
     plt.xlabel("Episode")
-    plt.savefig("plots/all.png")
+    plt.title("CartPole Environment")
+    plt.savefig("plots/cartpole.png")
     plt.clf()
+
+    plt.plot(x, avg_lunar_q,
+             label=f"LunarLander with Q Learning", color=colors[0])
+    plt.plot(x, avg_lunar_dq,
+             label=f"LunarLander with Deep Q Learning", color=colors[2])
+    plt.legend(bbox_to_anchor=(1, 0), loc="lower right")
+    plt.ylabel("Return")
+    plt.xlabel("Episode")
+    plt.title("Lunar Lander Environment")
+    plt.savefig("plots/lunar.png")
+    plt.clf()
+
+
+# reward_cartpole_q = np.load("reward_cartpole_q.npy")
+# reward_cartpole_dq = np.load("reward_cartpole_dq.npy")
+# reward_lunar_q = np.load("reward_lunar_q.npy")
+# reward_lunar_dq = np.load("reward_lunar_dq.npy")
+
+# plot_all(reward_cartpole_q=reward_cartpole_q, reward_cartpole_dq=reward_cartpole_dq,
+#          reward_lunar_q=reward_lunar_q, reward_lunar_dq=reward_lunar_dq)
