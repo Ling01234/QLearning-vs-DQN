@@ -1,20 +1,20 @@
 # Fdb version 4
-["bibtex Report"] 1680973755 "Report.aux" "Report.bbl" "Report" 1680973868 0
+["bibtex Report"] 1680984291 "Report.aux" "Report.bbl" "Report" 1680984403 0
   "./References.bib" 1680973732 7623 c17e63636295d4e870c25d16677fa307 ""
-  "Report.aux" 1680973867 4638 d3e0328a77e366799d41d88b69c90ea9 "pdflatex"
+  "Report.aux" 1680984402 4774 e59ef48feefd202d78cedc67c6bf0107 "pdflatex"
   "c:/texlive/2022/texmf-dist/bibtex/bst/base/plain.bst" 1665006754 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
   (generated)
   "Report.bbl"
   "Report.blg"
   (rewritten before read)
-["pdflatex"] 1680973866 "c:/Users/Ling0/Dropbox/School/McGill/Winter 2023/COMP 579/Final Project/Report/Report.tex" "Report.pdf" "Report" 1680973868 0
+["pdflatex"] 1680984401 "c:/Users/Ling0/Dropbox/School/McGill/Winter 2023/COMP 579/Final Project/Report/Report.tex" "Report.pdf" "Report" 1680984403 0
   "../plots//cartpole.png" 1680916377 40910 ac0d02a6253e602f466618a5dbb39659 ""
   "../plots//lunar.png" 1680916377 41506 4d430a7b3bd60e118eff54326e68ca59 ""
-  "Report.aux" 1680973867 4638 d3e0328a77e366799d41d88b69c90ea9 "pdflatex"
-  "Report.bbl" 1680973755 3807 96bf01331393f6d17ed1f6080cb9ca01 "bibtex Report"
-  "Report.out" 1680973867 864 2cb43838dd203adb58f5d5a46032e93b "pdflatex"
-  "Report.tex" 1680973865 16294 f676dbbddf459fc71fd7adbc3fbdd12c ""
-  "c:/Users/Ling0/Dropbox/School/McGill/Winter 2023/COMP 579/Final Project/Report/Report.tex" 1680973865 16294 f676dbbddf459fc71fd7adbc3fbdd12c ""
+  "Report.aux" 1680984402 4774 e59ef48feefd202d78cedc67c6bf0107 "pdflatex"
+  "Report.bbl" 1680984291 3807 96bf01331393f6d17ed1f6080cb9ca01 "bibtex Report"
+  "Report.out" 1680984402 864 2cb43838dd203adb58f5d5a46032e93b "pdflatex"
+  "Report.tex" 1680984400 15977 571e3fb44a1593eb6dc044c556ad19d6 ""
+  "c:/Users/Ling0/Dropbox/School/McGill/Winter 2023/COMP 579/Final Project/Report/Report.tex" 1680984400 15977 571e3fb44a1593eb6dc044c556ad19d6 ""
   "c:/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc" 1662937464 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "c:/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1662937251 2971 def0b6c1f0b107b3b936def894055589 ""
   "c:/texlive/2022/texmf-dist/fonts/map/fontname/texfonts.map" 1665006780 3524 cb3e574dea2d1052e39280babc910dc8 ""
