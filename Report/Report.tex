@@ -247,7 +247,7 @@ agent.
             \begin{cases}
                   r                                                  & \quad \text{if }s \text{ is a terminal state} \\
                   r + \gamma \max_a \title{Q}(s', a; \tilde{\theta}) & \quad \text{otherwise}
-            \end{cases}\)
+            \end{cases}\) \Comment{use target network}
             \State Perform a gradient descent step on \(\left(\hat{y} - Q(s, a; \theta)\right)^2\) with respect to the policy network parameters \(\theta\)
             \If {\(t \text{ mod } C = 0\)}
             \State \(\tilde{Q} \leftarrow Q\) \Comment{resets target network}
