@@ -3,6 +3,11 @@
 \bibitem{discretization}
 When should discretization of observations be considerd?, 2022.
 
+\bibitem{discretization_tech}
+Rohan Gupta.
+\newblock An introduction to discretization techniques for data scientists,
+  2019.
+
 \bibitem{soft_update}
 Timothy~P. Lillicrap, Jonathan~J. Hunt, Alexander Pritzel, Nicolas Heess, Tom
   Erez, Yuval Tassa, David Silver, and Daan Wierstra.
@@ -13,6 +18,11 @@ Volodymyr Mnih, Koray Kavukcuoglu, David Silver, Alex Graves, Ioannis
   Antonoglou, Daan Wierstra, and Martin~A. Riedmiller.
 \newblock Playing atari with deep reinforcement learning.
 \newblock {\em CoRR}, abs/1312.5602, 2013.
+
+\bibitem{hubert}
+George Seif.
+\newblock Understanding the 3 most common loss functions for machine learning
+  regression, 2019.
 
 \bibitem{sutton}
 Richard~S. Sutton and Andrew~G. Barto.

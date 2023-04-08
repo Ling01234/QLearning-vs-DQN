@@ -4,45 +4,45 @@ The top-level auxiliary file: Report.aux
 The style file: plain.bst
 Database file #1: References.bib
 Warning--to sort, need author or key in discretization
-You've used 4 entries,
+You've used 6 entries,
             2118 wiz_defined-function locations,
-            517 strings with 4651 characters,
-and the built_in function-call counts, 1249 in all, are:
-= -- 103
-> -- 95
+            523 strings with 4840 characters,
+and the built_in function-call counts, 1645 in all, are:
+= -- 137
+> -- 109
 < -- 0
-+ -- 38
-- -- 34
-* -- 91
-:= -- 219
-add.period$ -- 9
-call.type$ -- 4
-change.case$ -- 29
++ -- 45
+- -- 38
+* -- 103
+:= -- 283
+add.period$ -- 13
+call.type$ -- 6
+change.case$ -- 37
 chr.to.int$ -- 0
-cite$ -- 5
-duplicate$ -- 36
-empty$ -- 85
-format.name$ -- 34
-if$ -- 248
+cite$ -- 7
+duplicate$ -- 50
+empty$ -- 129
+format.name$ -- 38
+if$ -- 334
 int.to.chr$ -- 0
-int.to.str$ -- 4
+int.to.str$ -- 6
 missing$ -- 3
-newline$ -- 20
-num.names$ -- 6
-pop$ -- 41
+newline$ -- 28
+num.names$ -- 10
+pop$ -- 59
 preamble$ -- 1
-purify$ -- 25
+purify$ -- 31
 quote$ -- 0
-skip$ -- 31
+skip$ -- 47
 stack$ -- 0
-substring$ -- 20
-swap$ -- 4
+substring$ -- 31
+swap$ -- 6
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 14
+type$ -- 22
 warning$ -- 1
-while$ -- 6
-width$ -- 5
-write$ -- 38
+while$ -- 10
+width$ -- 7
+write$ -- 54
 (There was 1 warning)

@@ -34,7 +34,7 @@ I am implementing two reinforcement learning models, q learning and deep q learn
 
 # To do
 - background -> talk about discount factors and learning rates?
-- results
-- conclusion
-- abstract
--
+- correct intro
+- add references all over the paper
+- make sure of format
+- correct paper syntaxically

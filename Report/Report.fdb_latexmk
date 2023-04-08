@@ -1,18 +1,20 @@
 # Fdb version 4
-["bibtex Report"] 1680906936 "Report.aux" "Report.bbl" "Report" 1680916108 0
-  "./References.bib" 1680898868 1958 591dae3cedc23b5497eb02633858ce43 ""
-  "Report.aux" 1680916107 2559 683cf65d9dbe3f2e76ed988f9891b82c "pdflatex"
+["bibtex Report"] 1680920977 "Report.aux" "Report.bbl" "Report" 1680920980 0
+  "./References.bib" 1680920923 2524 19335eb6b078014be5aec8f14e0b7fac ""
+  "Report.aux" 1680920979 4324 ccc6a6e1a9b961b15b464b186ce65f3a "pdflatex"
   "c:/texlive/2022/texmf-dist/bibtex/bst/base/plain.bst" 1665006754 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
   (generated)
   "Report.bbl"
   "Report.blg"
   (rewritten before read)
-["pdflatex"] 1680916106 "c:/Users/Ling0/Dropbox/School/McGill/Winter 2023/COMP 579/Final Project/Report/Report.tex" "Report.pdf" "Report" 1680916108 0
-  "Report.aux" 1680916107 2559 683cf65d9dbe3f2e76ed988f9891b82c "pdflatex"
-  "Report.bbl" 1680906936 794 97526d4526d05a8b552607a82985b55b "bibtex Report"
-  "Report.out" 1680916107 979 33656cd7bd75888cd7f7bcef1ddd5565 "pdflatex"
-  "Report.tex" 1680916105 13487 dd631a811c9eed02ef30da0ae2375a6a ""
-  "c:/Users/Ling0/Dropbox/School/McGill/Winter 2023/COMP 579/Final Project/Report/Report.tex" 1680916105 13487 dd631a811c9eed02ef30da0ae2375a6a ""
+["pdflatex"] 1680920978 "c:/Users/Ling0/Dropbox/School/McGill/Winter 2023/COMP 579/Final Project/Report/Report.tex" "Report.pdf" "Report" 1680920980 0
+  "../plots//cartpole.png" 1680916377 40910 ac0d02a6253e602f466618a5dbb39659 ""
+  "../plots//lunar.png" 1680916377 41506 4d430a7b3bd60e118eff54326e68ca59 ""
+  "Report.aux" 1680920979 4324 ccc6a6e1a9b961b15b464b186ce65f3a "pdflatex"
+  "Report.bbl" 1680920978 1051 fb02ac5253ebb163b0495742d3c0e2e1 "bibtex Report"
+  "Report.out" 1680920979 1198 e6dfadbc35f7d34607bdb8c272502375 "pdflatex"
+  "Report.tex" 1680920975 17716 8a826f66a6700da8290c907dfe4d8a5e ""
+  "c:/Users/Ling0/Dropbox/School/McGill/Winter 2023/COMP 579/Final Project/Report/Report.tex" 1680920975 17716 8a826f66a6700da8290c907dfe4d8a5e ""
   "c:/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc" 1662937464 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "c:/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1662937251 2971 def0b6c1f0b107b3b936def894055589 ""
   "c:/texlive/2022/texmf-dist/fonts/map/fontname/texfonts.map" 1665006780 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -83,6 +85,10 @@
   "c:/texlive/2022/texmf-dist/tex/latex/base/size10.clo" 1671148872 8448 c33a4e1cb35cee9b33c2b21033b73e39 ""
   "c:/texlive/2022/texmf-dist/tex/latex/base/t1cmtt.fd" 1671148872 2443 f9c272838e65ac147422f32fe87b76a1 ""
   "c:/texlive/2022/texmf-dist/tex/latex/booktabs/booktabs.sty" 1662937141 6078 f1cb470c9199e7110a27851508ed7a5c ""
+  "c:/texlive/2022/texmf-dist/tex/latex/caption/caption.sty" 1662937173 54291 b8e5c600d4aa37b48a740dd2a6c26163 ""
+  "c:/texlive/2022/texmf-dist/tex/latex/caption/caption3.sty" 1662937173 71241 d2cd3a1c5acef9cb31f945b93c0bb6e3 ""
+  "c:/texlive/2022/texmf-dist/tex/latex/caption/subcaption.sty" 1662937173 11546 6c5257d230d8c5626812b45bc2f31212 ""
+  "c:/texlive/2022/texmf-dist/tex/latex/cleveref/cleveref.sty" 1662937238 329481 7fc6b003158402a4c694bc0a1b729308 ""
   "c:/texlive/2022/texmf-dist/tex/latex/environ/environ.sty" 1662937522 4378 f429f0da968c278653359293040a8f52 ""
   "c:/texlive/2022/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty" 1662937530 13886 d1306dcf79a944f6988e688c1785f9ce ""
   "c:/texlive/2022/texmf-dist/tex/latex/etoolbox/etoolbox.sty" 1662937554 46845 3b58f70c6e861a13d927bff09d35ecbc ""

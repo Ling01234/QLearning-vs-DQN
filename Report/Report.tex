@@ -30,6 +30,8 @@
 \usepackage{float}
 \usepackage{algpseudocode}
 \usepackage{algorithm}
+\usepackage[capitalise]{cleveref}
+\usepackage{caption, subcaption}
 \algnewcommand\algorithmicforeach{\textbf{for each}}
 \algdef{S}[FOR]{ForEach}[1]{\algorithmicforeach\ #1\ \algorithmicdo}
 
@@ -48,11 +50,7 @@
 \maketitle
 
 \begin{abstract}
-      The abstract paragraph should be indented \nicefrac{1}{2}~inch (3~picas) on
-      both the left- and right-hand margins. Use 10~point type, with a vertical
-      spacing (leading) of 11~points.  The word \textbf{Abstract} must be centered,
-      bold, and in point size 12. Two line spaces precede the abstract. The abstract
-      must be limited to one paragraph.
+      In this paper, we compare two widely used RL algorithms, Q Learning and Deep Q Network (DQN), in the context of two games, CartPole and Lunar Lander. Our results demonstrate that DQN learns faster than Q Learning, but can be more unstable during the learning process. In constrast, Q Learning leanrs more steadily but at a slower rate. These findings usggest that the choice of the algorithm depends on the specific application and trade-offs between speed and stability. Our work contributes to the understanding of the performance characteristics of Q Learning and DQN, and can help guide the selection of RL algorithms for similar tasks in the future.
 \end{abstract}
 
 \section{Introduction}
@@ -155,10 +153,10 @@ case, we number of training episodes is 500 for both games.
 We used very similar hyperparameters for both games, with the exception of the
 learning rate. In particular, for both games, we used a discount factor of
 0.99, a start epsilon of 1, a minimum epsilon of 0.01, a discretization done by
-dividing the range of a feature into 10 equal sized bins, and an epsilon linear
-decay with a slope of \(5^{-4}\). With some experimentation, we discovered that
-the best learning rates for CartPole and Lunar Lander are 0.25 and 0.005
-respectively.
+dividing the range of a feature into 10 equal sized bins
+\cite{discretization_tech}, and an epsilon linear decay with a slope of
+\(5^{-4}\). With some experimentation, we discovered that the best learning
+rates for CartPole and Lunar Lander are 0.25 and 0.005 respectively.
 
 \subsection{DQN}
 To build our agent for DQN, a few steps are necessary as we need a deep neural
@@ -173,15 +171,19 @@ accordingly.
 Next, we implemented the deep neural network, which consists of two hidden
 layers, each with a default number of 128 units. We used \verb+ReLU+ activation
 function, \verb+Adam+'s optimizer and calculated our loss with
-\verb+SmoothL1Loss+. In the \verb+forward+ method, our network takes in a
-state, and outputs a Tensor of shape \verb+action_space+, each element
-corresponding to the Q value of the state-action pair.
+\verb+SmoothL1Loss+. We decided to use the Huber loss during our implementation
+to make our agent more robust to outliers when the estimates of Q values are
+noisy. In fact, the Huber loss acts like the mean squarred error when the error
+is small, and acts like the mean absolute error when it's large \cite{hubert}.
+We used In the \verb+forward+ method, our network takes in a state, and outputs
+a Tensor of shape \verb+action_space+, each element corresponding to the Q
+value of the state-action pair.
 
 With this, we can build our RL agent. We built the agent with both a policy as
 well as a target network in order to make learning more stable. For our
 experiment, we initialized a replay buffer of size 100000, and trained our
 agent for 500 episodes. The actions are sampled based on an epsilon-greedy
-exploration. The full algorithm of DQN is described in Algorithm \ref{alg:dqn}.
+exploration. The full algorithm of DQN is described in \cref{alg:dqn}.
 
 Unlike Q Learning, DQN does not need to discretize the states of a continuous
 observation space. This is because the continuous features can be passed
@@ -198,7 +200,7 @@ batch size of 64.
 
 \subsection{Q Learning}
 
-\begin{algorithm}
+\begin{algorithm}[H]
       \caption{Q Learning(episodes, \(\alpha, \epsilon, \gamma\))}
       \label{alg:qlearning}
       \begin{algorithmic}[1]
@@ -211,20 +213,20 @@ batch size of 64.
             \State Choose \(a \in \mathcal{A}\) from \(s\) using policy derived from \(Q\) \Comment{\(\epsilon\)-greedy, Softmax}
             \State Take action \(a\)
             \State Observe reward \(r\) and next state \(s'\)
-            \State \(Q(s, a) \leftarrow Q(s, a) + \alpha \left[r + \gamma \max_{a} Q(s', a) - Q(s, a)\right]\) \Comment{Equation \ref{eq:q_update_rule}}
+            \State \(Q(s, a) \leftarrow Q(s, a) + \alpha \left[r + \gamma \max_{a} Q(s', a) - Q(s, a)\right]\) \Comment{\cref{eq:q_update_rule}}
             \State \(s \leftarrow s'\)
             \EndWhile
             \EndFor
       \end{algorithmic}
 \end{algorithm}
 
-In Algorithm \ref{alg:qlearning}, \(\alpha\) is the learning rate, \(0 < \gamma
-\leq 1\) is the discount factor, and \(\epsilon\) is the exploration factor for
-the agent.
+In \cref{alg:qlearning}, \(\alpha\) is the learning rate, \(0 < \gamma \leq 1\)
+is the discount factor, and \(\epsilon\) is the exploration factor for the
+agent.
 
 \subsection{Deep Q Network}
 
-\begin{algorithm}
+\begin{algorithm}[H]
       \caption{DQN(episodes, \(\alpha, \epsilon, \gamma, C\))}
       \label{alg:dqn}
       \begin{algorithmic}[1]
@@ -258,9 +260,76 @@ the agent.
 
 \section{Results}
 
+After training both agents for 500 episodes, we can observe the training return
+for both agents in \cref{fig:train}.
 
+\begin{figure}[H]
+      \centering
+      \begin{subfigure}[H]{0.49\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{cartpole}
+            \caption{Q Learning vs DQN in CartPole}
+            \label{fig:cartpole}
+      \end{subfigure}
+      \begin{subfigure}[H]{0.49\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{lunar}
+            \caption{Q Learning vs DQN in Lunar Lander}
+            \label{fig:lunar}
+      \end{subfigure}
+      \caption{500 training episodes for Q Learning and DQN. Returns are averaged over the last 100 episodes.}
+      \label{fig:train}
+\end{figure}
+
+Immediately, we notice a significant learning improvement in DQN over Q
+learning in both games.
+
+\subsection{CartPole}
+In the CartPole environment, we can see that DQN easily reached an average
+return of 300 shortly after 300 training episodes. We also observe a big drop
+in average return after approximately 350 episodes. We suspect that this comes
+from the fact that the agent escaped a local minima, and tries to work its way
+to a global minima as the return peaks upwards again at around episode 450. We
+can see that DQN's return grows quickly, but also much more unstably to Q
+Learning. This is a direct consequence of the algorithm, as one of its
+limitations is the instability during the learning process.
+
+As for Q Learning, we can see that the agent learns at a much slower but more
+steady rate compared to DQN. We can see that even after 500 episodes of Q
+Learning training, the agent seems to only obtain an average return of a little
+less than 100. This could be that the agent is stuck in a local minima. Due to
+the good returns, the agent might decide to stay in the local minima, rather
+than risking to espace it.
+
+\subsection{Lunar Lander}
+In the Lunar Lander environment, we can once more see that DQN out performs Q
+Learning. Once more, we can see the properties of each algorithm. Clearly,
+DQN's learning is fast but unstable. The agent reaches a return of -50 at
+episode 50, but it decreases to approximately -125 at episode 150. Then, the
+agent seems to have learnt some important information, as the return spikes up
+to +100 shortly after. It then once more comes to a plateau for the remaining
+of the training episodes.
+
+On the other hand, Q Learning has a slower but stable learning. The agent
+doesn't have any drastic change in average returns. Rather, the average return
+slowly increases.
 
 \section{Conclusion}
+This in paper, we have studied two popular reinforcement learning algorithms, Q
+Learning and DQN, on two different games, CartPole and Lunar Lander. Our
+results showed that DQN was able to learn faster in both games, but it
+exhibited some instability during the learning process. In constrast, Q
+Learning learned more steadily but at a slower pace. These findings suggest
+that the choice of algorithm depends on the specific application and trade-offs
+between speed and stability.
+
+As a future direction, we suggest exploring modifications of Deep Q Learning,
+such as deep deterministic policy gradient (DDPG), which combines Q Learning
+with policy gradients to learn a deterministic policy directly. This approach
+has been shown to be effective in continuous action spaces and could
+potentially address some of the instability issues observed in DQN. Overall,
+our work highlights the importance of carefully selecting the appriopriate
+reinforcement learning algorithm for a given task.
 
 \newpage
 \nocite{*}
