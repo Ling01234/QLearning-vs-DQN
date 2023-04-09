@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.12.22)  9 APR 2023 11:33
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.12.22)  9 APR 2023 12:16
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -876,7 +876,7 @@ Package caption Info: End \AtBeginDocument code.
 ] (./presentation.toc) [2
 
 ]
-<cart_pole.png, id=183, 451.6875pt x 301.125pt>
+<cart_pole.png, id=171, 451.6875pt x 301.125pt>
 File: cart_pole.png Graphic file (type png)
 <use cart_pole.png>
 Package pdftex.def Info: cart_pole.png  used on input line 58.
@@ -905,7 +905,7 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `mathkerncmss' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-<lunar.png, id=185, 447.17062pt x 298.11375pt>
+<lunar.png, id=173, 447.17062pt x 298.11375pt>
 File: lunar.png Graphic file (type png)
 <use lunar.png>
 Package pdftex.def Info: lunar.png  used on input line 58.
@@ -938,16 +938,8 @@ Package pdftex.def Info: lunar.png  used on input line 58.
 
 ] [16
 
-] [17
-
-] [18
-
-] [19
-
-] [20
-
 ]
-LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 152.
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 138.
  (c:/texlive/2022/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2022/07/10 v2.5l Standard LaTeX font definitions
 )
@@ -955,50 +947,133 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `cmtt' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- [21
+ [17
 
-] [22
+] [18
 
-] [23
+] [19
 
-] [24
+] [20
 
-] [25
+] [21
 
 ]
-<../plots/cartpole.png, id=1187, 462.528pt x 346.896pt>
+<../plots/cartpole.png, id=963, 462.528pt x 346.896pt>
 File: ../plots/cartpole.png Graphic file (type png)
 <use ../plots/cartpole.png>
-Package pdftex.def Info: ../plots/cartpole.png  used on input line 223.
+Package pdftex.def Info: ../plots/cartpole.png  used on input line 209.
 (pdftex.def)             Requested size: 150.57372pt x 112.9304pt.
-<../plots/lunar.png, id=1188, 462.528pt x 346.896pt>
+<../plots/lunar.png, id=964, 462.528pt x 346.896pt>
 File: ../plots/lunar.png Graphic file (type png)
 <use ../plots/lunar.png>
-Package pdftex.def Info: ../plots/lunar.png  used on input line 223.
+Package pdftex.def Info: ../plots/lunar.png  used on input line 209.
 (pdftex.def)             Requested size: 150.57372pt x 112.9304pt.
+ [22
+
+ <../plots/cartpole.png> <../plots/lunar.png>]
+File: ../plots/cartpole.png Graphic file (type png)
+<use ../plots/cartpole.png>
+Package pdftex.def Info: ../plots/cartpole.png  used on input line 235.
+(pdftex.def)             Requested size: 92.1879pt x 69.13977pt.
+ [23
+
+]
+File: ../plots/cartpole.png Graphic file (type png)
+<use ../plots/cartpole.png>
+Package pdftex.def Info: ../plots/cartpole.png  used on input line 235.
+(pdftex.def)             Requested size: 92.1879pt x 69.13977pt.
+ [24
+
+]
+File: ../plots/cartpole.png Graphic file (type png)
+<use ../plots/cartpole.png>
+Package pdftex.def Info: ../plots/cartpole.png  used on input line 235.
+(pdftex.def)             Requested size: 92.1879pt x 69.13977pt.
+ [25
+
+]
+File: ../plots/cartpole.png Graphic file (type png)
+<use ../plots/cartpole.png>
+Package pdftex.def Info: ../plots/cartpole.png  used on input line 235.
+(pdftex.def)             Requested size: 92.1879pt x 69.13977pt.
  [26
 
- <../plots/cartpole.png> <../plots/lunar.png>] [27
+]
+File: ../plots/cartpole.png Graphic file (type png)
+<use ../plots/cartpole.png>
+Package pdftex.def Info: ../plots/cartpole.png  used on input line 235.
+(pdftex.def)             Requested size: 92.1879pt x 69.13977pt.
+ [27
 
-] [28
+]
+File: ../plots/cartpole.png Graphic file (type png)
+<use ../plots/cartpole.png>
+Package pdftex.def Info: ../plots/cartpole.png  used on input line 235.
+(pdftex.def)             Requested size: 92.1879pt x 69.13977pt.
+ [28
 
-] [29
+]
+File: ../plots/cartpole.png Graphic file (type png)
+<use ../plots/cartpole.png>
+Package pdftex.def Info: ../plots/cartpole.png  used on input line 235.
+(pdftex.def)             Requested size: 92.1879pt x 69.13977pt.
+ [29
 
-] [30
+]
+File: ../plots/cartpole.png Graphic file (type png)
+<use ../plots/cartpole.png>
+Package pdftex.def Info: ../plots/cartpole.png  used on input line 235.
+(pdftex.def)             Requested size: 92.1879pt x 69.13977pt.
+ [30
 
-] [31
+]
+File: ../plots/cartpole.png Graphic file (type png)
+<use ../plots/cartpole.png>
+Package pdftex.def Info: ../plots/cartpole.png  used on input line 235.
+(pdftex.def)             Requested size: 92.1879pt x 69.13977pt.
+ [31
 
-] [32
+]
+File: ../plots/lunar.png Graphic file (type png)
+<use ../plots/lunar.png>
+Package pdftex.def Info: ../plots/lunar.png  used on input line 260.
+(pdftex.def)             Requested size: 92.1879pt x 69.13977pt.
+ [32
 
-] [33
+]
+File: ../plots/lunar.png Graphic file (type png)
+<use ../plots/lunar.png>
+Package pdftex.def Info: ../plots/lunar.png  used on input line 260.
+(pdftex.def)             Requested size: 92.1879pt x 69.13977pt.
+ [33
 
-] [34
+]
+File: ../plots/lunar.png Graphic file (type png)
+<use ../plots/lunar.png>
+Package pdftex.def Info: ../plots/lunar.png  used on input line 260.
+(pdftex.def)             Requested size: 92.1879pt x 69.13977pt.
+ [34
 
-] [35
+]
+File: ../plots/lunar.png Graphic file (type png)
+<use ../plots/lunar.png>
+Package pdftex.def Info: ../plots/lunar.png  used on input line 260.
+(pdftex.def)             Requested size: 92.1879pt x 69.13977pt.
+ [35
 
-] [36
+]
+File: ../plots/lunar.png Graphic file (type png)
+<use ../plots/lunar.png>
+Package pdftex.def Info: ../plots/lunar.png  used on input line 260.
+(pdftex.def)             Requested size: 92.1879pt x 69.13977pt.
+ [36
 
-] [37
+]
+File: ../plots/lunar.png Graphic file (type png)
+<use ../plots/lunar.png>
+Package pdftex.def Info: ../plots/lunar.png  used on input line 260.
+(pdftex.def)             Requested size: 92.1879pt x 69.13977pt.
+ [37
 
 ] [38
 
@@ -1016,14 +1091,6 @@ Package pdftex.def Info: ../plots/lunar.png  used on input line 223.
 
 ] [45
 
-] [46
-
-] [47
-
-] [48
-
-] [49
-
 ]
 \tf@nav=\write6
 \openout6 = `presentation.nav'.
@@ -1036,21 +1103,21 @@ Package pdftex.def Info: ../plots/lunar.png  used on input line 223.
 
  (./presentation.aux)
 Package rerunfilecheck Info: File `presentation.out' has not changed.
-(rerunfilecheck)             Checksum: 346C0A899499B3D1F6497313DB74DD44;465.
+(rerunfilecheck)             Checksum: 464E0257AA000B6002C3563687893B9F;372.
  ) 
 Here is how much of TeX's memory you used:
- 27698 strings out of 476093
- 536201 string characters out of 5795582
- 1881787 words of memory out of 5000000
- 47314 multiletter control sequences out of 15000+600000
- 532778 words of font info for 112 fonts, out of 8000000 for 9000
+ 27685 strings out of 476093
+ 536085 string characters out of 5795582
+ 1880787 words of memory out of 5000000
+ 47308 multiletter control sequences out of 15000+600000
+ 532867 words of font info for 113 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  128i,20n,122p,1096b,1009s stack positions out of 10000i,1000n,20000p,200000b,200000s
-{c:/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}<c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfss0600.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfss0700.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfss0800.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfss0900.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfss1000.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfss1095.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfss1440.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfsx1095.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sftt1095.pfb>
-Output written on presentation.pdf (49 pages, 440999 bytes).
+{c:/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}<c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfss0600.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfss0700.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfss0800.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfss0900.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfss1000.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfss1095.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfss1440.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfsx1095.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sftt1095.pfb>
+Output written on presentation.pdf (45 pages, 396985 bytes).
 PDF statistics:
- 2329 PDF objects out of 2487 (max. 8388607)
- 2166 compressed objects within 22 object streams
- 111 named destinations out of 1000 (max. 500000)
- 36555 words of extra memory for PDF output out of 42996 (max. 10000000)
+ 2037 PDF objects out of 2073 (max. 8388607)
+ 1891 compressed objects within 19 object streams
+ 102 named destinations out of 1000 (max. 500000)
+ 36547 words of extra memory for PDF output out of 42996 (max. 10000000)
 

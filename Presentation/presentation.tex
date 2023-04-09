@@ -76,20 +76,26 @@
     \end{itemize}
 \end{frame}
 
-\section{Background}
+\section{Methodology}
+
 \begin{frame}
-    \frametitle{Background}
+    \frametitle{Q Learning}
+
     \begin{itemize}
-        \item Future discounted return at time \(t: R_t =
-              \sum_{t'=t}^{T}\gamma^{t'-t}r_{t'}\) \pause
-        \item The optimal action-value function \(Q^*(s,a) = \max_\pi \e{R_t | s_t = s, a_t =
-                  a, \pi}\) \pause
-        \item Optimal stragery is to maximize the expected value of \(r + \gamma Q^*(s',a')\)
+        \item Impractical to store all Q values for a continuous observation space \pause
+        \item Discretization needed \pause
+        \item Hyperparameters used for Q Learning\pause
+              \begin{itemize}
+                  \item Discount factor \(\gamma = 0.99\)
+                  \item Start epsilon of 1
+                  \item End epsilon of 0.001
+                  \item Epsilon decay of \(5^{-4}\)
+                  \item 10 bins
+                  \item learning rate of 0.25 and 0.005 for CartPole and Lunar Lander, respectively
+              \end{itemize}
     \end{itemize}
 
 \end{frame}
-
-\section{Methodology}
 
 \begin{frame}
     \frametitle{Q Learning Algorithm}
@@ -116,27 +122,7 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Q Learning}
-
-    \begin{itemize}
-        \item Q Learning uses a table to store Q values for each state-action pair \pause
-        \item Impractical to store all Q values for a continuous observation space \pause
-        \item Discretization needed \pause
-        \item Hyperparameters used for Q Learning\pause
-              \begin{itemize}
-                  \item Discount factor \(\gamma = 0.99\)
-                  \item Start epsilon of 1
-                  \item End epsilon of 0.001
-                  \item Epsilon decay of \(5^{-4}\)
-                  \item 10 bins
-                  \item learning rate of 0.25 and 0.005 for CartPole and Lunar Lander, respectively
-              \end{itemize}
-    \end{itemize}
-
-\end{frame}
-
-\begin{frame}
-    \frametitle{DNQ Algorithm Setup}
+    \frametitle{DQN Algorithm Setup}
 
     \begin{itemize}
         \item Implementation of \texttt{ReplayMemory}, which acts as a replay buffer \pause
@@ -224,36 +210,52 @@
 
 \begin{frame}
     \frametitle{CartPole}
-    DQN\pause
-    \begin{itemize}
-        \item Learns much quicker than Q Learning \pause
-        \item Reached an average return of 300 at around 300 episodes \pause
-        \item Unstable learning process: significant drop at episode 350 \pause
-        \item Agent is possibly trying to escape a local minimum \pause
-    \end{itemize}
-    Q Learning\pause
-    \begin{itemize}
-        \item Learns much slower compared to DQN \pause
-        \item Not great returns, even after 500 training episodes \pause
-        \item Agent might be stuck in a local minima
-    \end{itemize}
+    \begin{columns}
+        \column{0.7\textwidth}
+        DQN\pause
+        \begin{itemize}
+            \item Learns much quicker than Q Learning \pause
+            \item Reached an average return of 300 at around 300 episodes \pause
+            \item Unstable learning process: significant drop at episode 350 \pause
+            \item Agent is possibly trying to escape a local minimum \pause
+        \end{itemize}
+        Q Learning\pause
+        \begin{itemize}
+            \item Learns much slower compared to DQN \pause
+            \item Not great returns, even after 500 training episodes \pause
+            \item Agent might be stuck in a local minima
+        \end{itemize}
+        \column{0.3\textwidth}
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=\textwidth]{../plots/cartpole}
+        \end{figure}
+    \end{columns}
 
 \end{frame}
 
 \begin{frame}
     \frametitle{Lunar Lander}
 
-    DQN \pause
-    \begin{itemize}
-        \item DQN outperforms Q Learning \pause
-        \item Unstable learning process \pause
-    \end{itemize}
-    Q Learning \pause
-    \begin{itemize}
-        \item Slow but stable learning \pause
-        \item No drastic change in average return. Instead, the average return slowly
-              increases
-    \end{itemize}
+    \begin{columns}
+        \column{0.7\textwidth}
+        DQN \pause
+        \begin{itemize}
+            \item DQN outperforms Q Learning \pause
+            \item Unstable learning process \pause
+        \end{itemize}
+        Q Learning \pause
+        \begin{itemize}
+            \item Slow but stable learning \pause
+            \item No drastic change in average return. Instead, the average return slowly
+                  increases
+        \end{itemize}
+        \column{0.3\textwidth}
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=\textwidth]{../plots/lunar}
+        \end{figure}
+    \end{columns}
 
 \end{frame}
 
