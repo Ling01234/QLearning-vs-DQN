@@ -31,6 +31,9 @@ I am implementing two reinforcement learning models, q learning and deep q learn
 - Modification of deep q learning agorithms such as Deep deterministic policy gradient (ddpg) which combines q learning with policy gradients to learn a deterministic policy directly.
 
 
+# Presentation
+
+
 
 # To do
 - presentation
